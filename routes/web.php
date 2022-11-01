@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
- 
 
-Auth::routes();
 
-Route::get('/', "HomeController@index")->name('home');
+Auth::routes(["verify" => true]);
+
+Route::get('/', "HomeController@index") ;
 Route::get('/home', "HomeController@index")->name('home');
+Route::get('send-mail', function () {
+
+    $user = [
+        'name' => 'Websolutionstuff',
+        'info' => 'This is mailstrap example in laravel 9'
+    ];
+
+    \Mail::to('test@example.com')->send(new \App\Mail\TestMail($user));
+
+    dd("Successfully send mail..!!");
+
+});

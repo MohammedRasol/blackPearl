@@ -12,7 +12,7 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
-    
+
     <!-- Font Icon -->
     <link rel="stylesheet" href="{{ asset('fonts/material-icon/css/material-design-iconic-font.min.css') }}">
 
@@ -58,7 +58,16 @@
                 </ul>
             </div>
             <div class="header__top__right__auth">
-                <a href="#"><i class="fa fa-user"></i> Login</a>
+                @guest
+                    <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
+                @endguest
+                @auth
+                    <form action="logout" method="post" id="form">
+                        @csrf
+                        <a href="javascript::void()" onclick="document.getElementById('form').submit();" type="submit"><i
+                                class="fa fa-sign-out"></i> LogOut</a>
+                    </form>
+                @endauth
             </div>
         </div>
         <nav class="hamburger__menu__nav mobile-menu">
@@ -126,7 +135,17 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
+                                @guest
+                                    <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
+                                @endguest
+                                @auth
+                                    <form action="logout" method="post" id="form">
+                                        @csrf
+                                        <a href="javascript::void()" onclick="document.getElementById('form').submit();"
+                                            type="submit"><i class="fa fa-sign-out"></i> LogOut</a>
+                                    </form>
+                                @endauth
+
                             </div>
                         </div>
                     </div>
