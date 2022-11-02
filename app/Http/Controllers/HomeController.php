@@ -31,7 +31,7 @@ class HomeController extends Controller
         $subCategory = SubCategory::all(["name_en"]); //ADD MULTI LANGS
         return $products = Product::with(["product_info"  => function ($q) {
             $q->select("discription_en", "color", "size", "product_id");
-        }]); //ADD MULTI LANGS
+        }])->get(); //ADD MULTI LANGS
 
         return view('home', compact("categories", "products", "subCategory"));
     }
