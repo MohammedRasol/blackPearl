@@ -62,11 +62,22 @@
                     <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
                 @endguest
                 @auth
-                    <form action="logout" method="post" id="form">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <button class="dropdown-item" type="button">Action</button>
+                            <button class="dropdown-item" type="button">Another action</button>
+                            <button class="dropdown-item" type="button">Something else here</button>
+                        </div>
+                    </div>
+                    {{-- <form action="logout" method="post" id="form">
                         @csrf
                         <a href="javascript::void()" onclick="document.getElementById('form').submit();" type="submit"><i
                                 class="fa fa-sign-out"></i> LogOut</a>
-                    </form>
+                    </form> --}}
                 @endauth
             </div>
         </div>
@@ -140,9 +151,18 @@
                                 @endguest
                                 @auth
                                     <form action="logout" method="post" id="form">
+                                        <div class="header__top__right__language">
+                                            <div> {{ Auth::user()->name }} </div>
+                                            <span class="arrow_carrot-down"></span>
+                                            <ul>
+                                                <li><a href="#">Settings</a></li>
+                                                <li> <a href="javascript::void()"
+                                                        onclick="document.getElementById('form').submit();"
+                                                        type="submit"><i class="fa fa-sign-out"></i> LogOut</a></li>
+                                            </ul>
+                                        </div>
                                         @csrf
-                                        <a href="javascript::void()" onclick="document.getElementById('form').submit();"
-                                            type="submit"><i class="fa fa-sign-out"></i> LogOut</a>
+
                                     </form>
                                 @endauth
 

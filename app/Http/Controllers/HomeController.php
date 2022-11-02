@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,6 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $categories = Category::all(["name_en"]); //ADD MULTI LANGS
+        $subCategory = SubCategory::all(["name_en"]); //ADD MULTI LANGS
+        return $products = Product::with(["product_info"  => function ($q) {
+            $q->select("discription_en", "color", "size", "product_id");
+        }]); //ADD MULTI LANGS
+
+        return view('home', compact("categories", "products", "subCategory"));
     }
 }
