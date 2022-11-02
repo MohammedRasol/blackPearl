@@ -41,7 +41,7 @@ return [
             'encryption' => env('MAIL_ENCRYPTION'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
+            'timeout' => 360,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
