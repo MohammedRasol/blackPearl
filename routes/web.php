@@ -18,6 +18,7 @@ Route::get('/', "HomeController@index");
 Route::get('/home', "HomeController@index")->name('home');
 
 Route::group(["prefix" => "admin"], function () {
-    Route::get("login", "AdminController@login")->name('admin-login');
+    Route::get("login", "AdminController@login")->name('admin-login')->middleware("redirectAuthAdmin");
+    Route::post("login", "AdminController@loginMethod")->name("loginMethod")->middleware("redirectAuthAdmin");;
     Route::get("index", "AdminController@index")->name('index');
 });
