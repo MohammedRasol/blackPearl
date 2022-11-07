@@ -13,7 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+            Schema::create('product_info', function (Blueprint $table) {
+            $table->id();
+            $table->string("discription_ar");
+            $table->string("discription_en");
+            $table->string("size")->nullable();
+            $table->string("color")->nullable();
+            $table->unsignedBigInteger("product_id");
+            $table->foreign("product_id")->references("id")->on("products");
+        });
     }
 
     /**
@@ -23,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+             Schema::dropIfExists('product_info');
     }
 };
