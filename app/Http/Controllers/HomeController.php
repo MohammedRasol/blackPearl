@@ -25,15 +25,36 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(REQUEST $req)
     {
-        $categories = Category::all(["name_en"]); //ADD MULTI LANGS
-        return        $subCategory = SubCategory::all(["name_en"]); //ADD MULTI LANGS
-        return $products = Product::select("id", "name_en as name")->with(["product_info"  => function ($q) {
-            $q->select("discription_en", "color", "size", "product_id");
+
+        $categories = Category::with(["sub_category" => function ($q) {
+            $q->select("id", "name_en as name", "logo", "category_id")->with(["products" => function ($q) {
+                $q->select("id", "name_en as name", "logo", "price", "sub_category_id");
+            }]);
         }])->get(); //ADD MULTI LANGS
 
-        return view('home', compact("categories", "products", "subCategory"));
+
+
+        $products = Product::select("id", "name_en as name", "logo")->with(["product_info"  => function ($q) {
+            $q->select("discription_en", "color", "size",  "product_id");
+        }])->get(); //ADD MULTI LANGS
+
+        return view('home', compact("categories", "products"));
     }
 
+    public function category(REQUEST $req)
+    {
+        $categories = Category::with(["sub_category" => function ($q) {
+            $q->select("id", "name_en as name", "logo", "category_id");
+        }])->find($req->id);
+        return view('categories.category', compact("categories"));
+    }
+
+
+    public function subCategory(REQUEST $req)
+    {
+
+        return "yes";
+    }
 }

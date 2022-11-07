@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductInfo;
+use App\Models\SubCategory;
 
 class Product extends Model
 {
@@ -14,5 +15,9 @@ class Product extends Model
     public function product_info()
     {
         return $this->hasOne(ProductInfo::class, "product_id", "id");
+    }
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class, "id", "id");
     }
 }

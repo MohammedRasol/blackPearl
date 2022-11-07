@@ -15,6 +15,8 @@ use App\Mail;
 
 Auth::routes(["verify" => true]);
 Route::get('/', "HomeController@index");
+Route::get('/category/{id}', "HomeController@category");
+Route::get('/category/{id}/{subcatid}', "HomeController@subCategory");
 Route::get('/home', "HomeController@index")->name('home');
 
 Route::group(["prefix" => "admin"], function () {
