@@ -23,4 +23,5 @@ Route::group(["prefix" => "admin"], function () {
     Route::get("login", "AdminController@login")->name('admin-login')->middleware("redirectAuthAdmin");
     Route::post("login", "AdminController@loginMethod")->name("loginMethod")->middleware("redirectAuthAdmin");;
     Route::get("/", "AdminController@index")->name('index');
+    Route::get("/index", "AdminController@index") ;
 });
