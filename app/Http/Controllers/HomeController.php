@@ -45,16 +45,18 @@ class HomeController extends Controller
 
     public function category(REQUEST $req)
     {
-        $categories = Category::with(["sub_category" => function ($q) {
+            $categories = Category::with(["sub_category" => function ($q) {
             $q->select("id", "name_en as name", "logo", "category_id");
-        }])->find($req->id);
+        }])->find($req->id,["id","name_en as name","logo"]);
+
         return view('categories.category', compact("categories"));
     }
 
 
     public function subCategory(REQUEST $req)
     {
+          $subCat = SubCategory::find($req->subcatid, ["id", "name_en", "logo"]);
+          return view('categories.category', compact("subCat"));
 
-        return "yes";
     }
 }

@@ -30,6 +30,7 @@ class AdminController extends Controller
     }
     public function loginMethod(Request $request)
     {
+        
         $validator =   Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required'

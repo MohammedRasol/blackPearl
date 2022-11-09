@@ -8,15 +8,15 @@
     <!-- Hero Section END -->
 
     <!-- Breadcrumb Section -->
-    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb.jpg') }}">
+    <section class="breadcrumb-section set-bg" data-setbg="{{   asset('img/blog/details/'.$categories->logo) }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Ogani Shop</h2>
+                        <h2>{{ $categories->name }}</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <span>Shop</span>
+                            {{-- <a href="./index.html">Home</a>
+                            <span>Shop</span> --}}
                         </div>
                     </div>
                 </div>

@@ -20,8 +20,10 @@ Route::get('/category/{id}/{subcatid}', "HomeController@subCategory");
 Route::get('/home', "HomeController@index")->name('home');
 
 Route::group(["prefix" => "admin"], function () {
-    Route::get("login", "AdminController@login")->name('admin-login')->middleware("redirectAuthAdmin");
-    Route::post("login", "AdminController@loginMethod")->name("loginMethod")->middleware("redirectAuthAdmin");;
+    Route::group(["middleware" => "redirectAuthAdmin"], function () {
+        Route::get("login", "AdminController@login")->name('admin-login');
+        Route::post("login", "AdminController@loginMethod")->name("loginMethod");
+    });
     Route::get("/", "AdminController@index")->name('index');
-    Route::get("/index", "AdminController@index") ;
+    Route::get("/index", "AdminController@index");
 });
