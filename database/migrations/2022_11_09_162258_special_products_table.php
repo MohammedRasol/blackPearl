@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('trends', function (Blueprint $table) {
+        Schema::create('special_products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->date("fromDate");
+            $table->date("endDate");
             $table->integer("type");
-            $table->unsignedBigInteger("product_id");
             $table->foreign("product_id")->references("id")->on("products");
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trends');
+        Schema::dropIfExists('special_products');
     }
 };
