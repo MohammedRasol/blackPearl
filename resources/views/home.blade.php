@@ -16,7 +16,7 @@
                         </div>
                         <ul>
                             @foreach ($categories as $item)
-                                <li><a href="{{'category/'.$item->id }}">{{ $item->name_en }}</a></li>
+                                <li><a href="{{ 'category/' . $item->id }}">{{ $item->name }}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -59,38 +59,14 @@
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
-                    <!-- 4x3 -->
-                    {{-- <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="{{ asset('img/categories/cat-1.jpg') }}">
-                            <h5><a href="#">Fresh Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="{{ asset('img/categories/cat-2.jpg') }}">
-                            <h5><a href="#">Dried Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="{{ asset('img/categories/cat-3.jpg') }}">
-                            <h5><a href="#">Vegetables</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="{{ asset('img/categories/cat-4.jpg') }}">
-                            <h5><a href="#">Fruit Drinks</a></h5>
-                        </div>
-                    </div> --}}
                     @foreach ($categories as $item)
-                        @foreach ($item->sub_category as $value)
-                            <div class="col-lg-3">
-                                <div class="categories__item set-bg"
-                                    data-setbg="{{ asset('img/featured/' . $value->logo) }}">
-                                    <h5><a href="#">{{ $value->name }}</a></h5>
-                                </div>
+                        <div class="col-lg-3">
+                            <div class="categories__item set-bg"
+                                data-setbg="{{ asset('img/product/details/' . $item->logo) }}">
+                                <h5><a href="#">{{ $item->name }}</a></h5>
                             </div>
-                        @endforeach
+                        </div>
                     @endforeach
-
                 </div>
             </div>
         </div>
@@ -110,10 +86,8 @@
                             <li data-filter="*" class="active">All
                             </li>
                             @foreach ($categories as $item)
-                                @foreach ($item->sub_category as $value)
-                                    <li data-filter=".{{ $value->name }}">{{ $value->name }}
-                                    </li>
-                                @endforeach
+                                <li data-filter=".{{ $item->name }}">{{ $item->name }}
+                                </li>
                             @endforeach
 
                         </ul>
@@ -127,10 +101,10 @@
                     @if ($item->sub_category != '')
                         @foreach ($item->sub_category as $subCat)
                             @foreach ($subCat->products as $product)
-                                <div class="col-lg-3 col-md-4 col-sm-6 mix  {{ $subCat->name }}  {{ $product->name }}">
+                                <div class="col-lg-3 col-md-4 col-sm-6 mix  {{ $item->name }}  {{ $product->name }}">
                                     <div class="featured__item">
                                         <div class="featured__item__pic set-bg"
-                                            data-setbg="{{ asset('img/featured/' . $product->logo) }}">
+                                            data-setbg="{{ asset('img/product/logo/' . $product->logo) }}">
                                             <ul class="featured__item__pic__hover">
                                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>

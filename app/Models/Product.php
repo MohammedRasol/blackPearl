@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductInfo;
 use App\Models\SubCategory;
+use App\Models\SpecialProduct;
 
 class Product extends Model
 {
@@ -19,5 +20,9 @@ class Product extends Model
     public function subCategory()
     {
         return $this->belongsTo(SubCategory::class, "id", "id");
+    }
+    public function specialProduct()
+    {
+        return $this->belongsTo(SpecialProduct::class, "id", "product_id");
     }
 }

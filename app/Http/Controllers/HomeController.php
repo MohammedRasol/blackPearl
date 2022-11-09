@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -28,26 +29,33 @@ class HomeController extends Controller
     public function index(REQUEST $req)
     {
 
-        $categories = Category::with(["sub_category" => function ($q) {
-            $q->select("id", "name_en as name", "logo", "category_id")->with(["products" => function ($q) {
-                $q->select("id", "name_en as name", "logo", "price", "sub_category_id");
-            }]);
-        }])->get(); //ADD MULTI LANGS
+        Product::with(["specialProduct" => function ($q) {
+            $currentDate = Carbon::now()->toDateString();
+            $q->select("id", "product_id", "fromDate", "endDate", "type")->where("type", "=", "1")->where("fromDate", "<=", $currentDate)->where("endDate", ">=", $currentDate);
+        }])->find(2);
+
+
+
+        
+            $categories = Category::with(["sub_category" => function ($q) {
+                $q->select("id", "name_en as name", "logo", "category_id")->with(["products" => function ($q) {
+                    $q->select("id", "name_en as name", "logo", "price", "sub_category_id");
+                }]);
+            }])->get(["id", "name_en as name", "logo", "active"]); //ADD MULTI LANGS
 
 
 
         $products = Product::select("id", "name_en as name", "logo")->with(["product_info"  => function ($q) {
             $q->select("discription_en", "color", "size",  "product_id");
         }])->get(); //ADD MULTI LANGS
-
         return view('home', compact("categories", "products"));
     }
 
     public function category(REQUEST $req)
     {
-            $categories = Category::with(["sub_category" => function ($q) {
+        $categories = Category::with(["sub_category" => function ($q) {
             $q->select("id", "name_en as name", "logo", "category_id");
-        }])->find($req->id,["id","name_en as name","logo"]);
+        }])->find($req->id, ["id", "name_en as name", "logo"]);
 
         return view('categories.category', compact("categories"));
     }
@@ -55,8 +63,7 @@ class HomeController extends Controller
 
     public function subCategory(REQUEST $req)
     {
-          $subCat = SubCategory::find($req->subcatid, ["id", "name_en", "logo"]);
-          return view('categories.category', compact("subCat"));
-
+        $subCat = SubCategory::find($req->subcatid, ["id", "name_en", "logo"]);
+        return view('categories.category', compact("subCat"));
     }
 }
