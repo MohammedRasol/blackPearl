@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductInfo;
 use App\Models\SubCategory;
 use App\Models\SpecialProduct;
+use App\Models\ProductReviews;
 
 class Product extends Model
 {
@@ -24,5 +25,13 @@ class Product extends Model
     public function specialProduct()
     {
         return $this->belongsTo(SpecialProduct::class, "id", "product_id");
+    }
+    public function productReviews()
+    {
+        return $this->hasMany(ProductReviews::class, "product_id", "id");
+    }
+    public function productRateAvg()
+    {
+        return $this->hasMany(ProductReviews::class, "product_id", "id")->selectRaw("product_id,AVG(rate) as rating")->groupBy('product_id');
     }
 }

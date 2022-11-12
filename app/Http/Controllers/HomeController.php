@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\SubCategory;
+use App\Models\SpecialProduct;
+use App\Models\ProductReviews;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -28,27 +30,31 @@ class HomeController extends Controller
      */
     public function index(REQUEST $req)
     {
+        $currentDate = Carbon::now()->toDateString();
+         $specialProduct = SpecialProduct::with(["products" => function ($q) {
+            $q->where("active", "=", 1);
+        }])->where("type", "=", "1")->where("fromDate", "<=", $currentDate)->where("endDate", ">=", $currentDate)->limit(6)->get();
 
-        Product::with(["specialProduct" => function ($q) {
-            $currentDate = Carbon::now()->toDateString();
-            $q->select("id", "product_id", "fromDate", "endDate", "type")->where("type", "=", "1")->where("fromDate", "<=", $currentDate)->where("endDate", ">=", $currentDate);
-        }])->find(2);
+        $categories = Category::with(["sub_category" => function ($q) {
+            $q->select("id", "name_en as name", "logo", "category_id")->with(["products" => function ($q) {
+                $q->select("id", "name_en as name", "logo", "price", "sub_category_id");
+            }]);
+        }])->get(["id", "name_en as name", "logo", "active"]); //ADD MULTI LANGS
 
+        $topRatedProducts = Product::select(
+            "id",
+            "name_ar",
+            "name_en",
+            "price",
+            "logo",
+        )->where("active", "=", 1)->with("productRateAvg")->limit(6)->get();
 
-
-        
-            $categories = Category::with(["sub_category" => function ($q) {
-                $q->select("id", "name_en as name", "logo", "category_id")->with(["products" => function ($q) {
-                    $q->select("id", "name_en as name", "logo", "price", "sub_category_id");
-                }]);
-            }])->get(["id", "name_en as name", "logo", "active"]); //ADD MULTI LANGS
-
-
+        $lastesProducts = Product::orderBy("created_at", "desc")->limit(6)->get();
 
         $products = Product::select("id", "name_en as name", "logo")->with(["product_info"  => function ($q) {
             $q->select("discription_en", "color", "size",  "product_id");
         }])->get(); //ADD MULTI LANGS
-        return view('home', compact("categories", "products"));
+        return view('home', compact("categories", "products","specialProduct"));
     }
 
     public function category(REQUEST $req)
