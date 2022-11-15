@@ -20,7 +20,7 @@ class Product extends Model
     }
     public function subCategory()
     {
-        return $this->belongsTo(SubCategory::class, "id", "id");
+        return $this->belongsTo(SubCategory::class, "sub_category_id", "id") ;
     }
     public function specialProduct()
     {
@@ -32,6 +32,6 @@ class Product extends Model
     }
     public function productRateAvg()
     {
-        return $this->hasMany(ProductReviews::class, "product_id", "id")->selectRaw("product_id,AVG(rate) as rating")->groupBy('product_id');
+        return $this->hasMany(ProductReviews::class, "product_id", "id")->selectRaw("product_id,AVG(rate) as rating")->groupBy('product_id')->orderBy("rating","desc");
     }
 }

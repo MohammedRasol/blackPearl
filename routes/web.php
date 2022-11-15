@@ -14,5 +14,6 @@ Route::group(["prefix" => "admin"], function () {
         Route::post("login", "AdminController@loginMethod")->name("loginMethod");
     });
     Route::get("/", "AdminController@index")->name('index');
+    Route::get("/add-product", "AdminController@addProduct")->name('addProduct');
     Route::get("/index", "AdminController@index");
 });

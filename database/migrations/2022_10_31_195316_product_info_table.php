@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("discription_en");
             $table->string("size")->nullable();
             $table->string("color")->nullable();
+            $table->integer("qty")->default(0);
             $table->unsignedBigInteger("product_id");
             $table->foreign("product_id")->references("id")->on("products");
         });

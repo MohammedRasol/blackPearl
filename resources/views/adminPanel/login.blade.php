@@ -78,8 +78,8 @@
                     @csrf
                     <div class="form-group">
                         <label class="form-label" for="login-email">Email address</label>
-                        <input type="email" class="form-control" id="login-email" name="email"  value="{{ old('email') }}"
-                            placeholder="name@email.com">
+                        <input type="email" class="form-control" id="login-email" name="email"
+                            value="{{ old('email') }}" placeholder="name@email.com">
                     </div>
                     <div class="form-group">
                         <label for="login-password"
@@ -93,13 +93,19 @@
                             placeholder="Enter your password" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary d-block w-100 my-4">Login</button>
+                    @if (Session::has('error'))
+                        <div class="alert alert-danger">
+                            <li> {{ Session::get('error') }}</li>
+                        </div>
+                    @endif
+
+
                     @if ($errors->any())
                         <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
                         </div>
                     @endif
 
