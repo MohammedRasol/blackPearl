@@ -740,4 +740,9 @@ label.valid:after {
   }
 }
 
+
+.min-height-table{
+  min-height:400px;
+}
+
 /*# sourceMappingURL=style.css.map */

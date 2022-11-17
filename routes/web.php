@@ -15,5 +15,11 @@ Route::group(["prefix" => "admin"], function () {
     });
     Route::get("/", "AdminController@index")->name('index');
     Route::get("/add-product", "AdminController@addProduct")->name('addProduct');
+    Route::get("/edit-product/{id}", "AdminController@editProduct")->name('editProduct');
+    Route::get("/all-product", "AdminController@allProduct")->name('allProduct');
     Route::get("/index", "AdminController@index");
+    Route::group(["prefix" => "ajax"], function () {
+        Route::get("/get-product-info/{id}", "AdminController@getProductInfo");
+    });
 });
+

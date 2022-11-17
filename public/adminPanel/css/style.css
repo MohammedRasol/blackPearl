@@ -1,0 +1,31 @@
+.min-height-table {
+    min-height: 400px;
+}
+
+.product-image {
+    width: 100%;
+ 
+    max-height: 90px;
+}
+
+#select-item {
+    padding: 6px 0 6px 10px;
+    -webkit-appearance: none;
+    width: 100px;
+    border: 1px solid #c4c4c4;
+    background-color: #f7f7f5;
+}
+
+.color-btn {
+    width: 20px;
+    height: 20px;
+    color: white;
+}
+
+.form-label {
+    font-size: large;
+}
+
+.small-text {
+    font-size: 12px;
+}

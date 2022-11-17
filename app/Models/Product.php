@@ -8,19 +8,20 @@ use App\Models\ProductInfo;
 use App\Models\SubCategory;
 use App\Models\SpecialProduct;
 use App\Models\ProductReviews;
+use App\Models\MultiMedia;
 
 class Product extends Model
 {
     use HasFactory;
     protected $table = "products";
     protected $fillable = ["name_ar", "name_en", "logo", "active", "price", "sub_category_id "];
-    public function product_info()
+    public function productInfo()
     {
-        return $this->hasOne(ProductInfo::class, "product_id", "id");
+        return $this->hasMany(ProductInfo::class, "product_id", "id");
     }
     public function subCategory()
     {
-        return $this->belongsTo(SubCategory::class, "sub_category_id", "id") ;
+        return $this->belongsTo(SubCategory::class, "sub_category_id", "id");
     }
     public function specialProduct()
     {
@@ -32,6 +33,11 @@ class Product extends Model
     }
     public function productRateAvg()
     {
-        return $this->hasMany(ProductReviews::class, "product_id", "id")->selectRaw("product_id,AVG(rate) as rating")->groupBy('product_id')->orderBy("rating","desc");
+        return $this->hasMany(ProductReviews::class, "product_id", "id")->selectRaw("product_id,AVG(rate) as rating")->groupBy('product_id')->orderBy("rating", "desc");
+    }
+
+    public function multiMedia()
+    {
+        return $this->hasMany(MultiMedia::class,"element_id","id");
     }
 }
