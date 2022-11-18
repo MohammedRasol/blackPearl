@@ -24,15 +24,16 @@
     <!-- Google Font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />       
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/brands.min.css" integrity="sha512-G/T7HQJXSeNV7mKMXeJKlYNJ0jrs8RsWzYG7rVACye+qrcUhEAYKYzaa+VFy6eFzM2+/JT1Q+eqBbZFSHmJQew==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="{{ asset('adminPanel/css/libs.bundle.css') }}" />
     <link rel="stylesheet" href="{{ asset('adminPanel/css/style.css') }}" />
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('adminPanel/css/theme.bundle.css') }}" />
-
     <!-- Fix for custom scrollbar if JS is disabled-->
     <noscript>
         <style>
@@ -248,7 +249,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-1.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-1.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -260,7 +261,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-2.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-2.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -272,7 +273,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-3.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-3.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -284,7 +285,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-4.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-4.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -296,7 +297,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-5.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-5.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -308,7 +309,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-6.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-6.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -320,7 +321,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-7.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-7.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -332,7 +333,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-8.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-8.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -344,7 +345,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-9.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-9.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -356,7 +357,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-10.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-10.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -368,7 +369,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-11.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-11.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -380,7 +381,7 @@
                                                 class="d-flex justify-content-center align-items-center flex-column bg-light-hover rounded-2 px-2 py-3 transition-all">
                                                 <span class="d-block f-h-8">
                                                     <picture>
-                                                        <img class="h-100" src="./assets/images/logos/logo-12.svg"
+                                                        <img class="h-100" src="{{ asset('adminPanel/images/logos/logo-12.svg') }}"
                                                             alt="">
                                                     </picture>
                                                 </span>
@@ -575,7 +576,7 @@
                             <div class="collapse" id="collapseMenuItemProducts">
                                 <ul class="submenu">
                                     <li><a href="./charts.html">All products</a></li>
-                                    <li><a href="./user-listing.html">Add product</a></li>
+                                    <li><a href="{{ route('add-product') }}">Add product</a></li>
                                     {{-- <li><a href="./login.html">Login</a></li>
                                     <li><a href="./register.html">Register</a></li>
                                     <li><a href="./forgot-password.html">Forgot Password</a></li>
@@ -672,9 +673,11 @@
 
     <!-- Theme JS -->
     <!-- Vendor JS -->
-    {{-- <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script> --}}
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('adminPanel/js/vendor.bundle.js') }}"></script>
-    <script src="{{ asset('adminPanel/js/vendor.bundle.js') }}"></script>
+    <script src="{{ asset('adminPanel/js/theme.bundle.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/brands.min.js" integrity="sha512-rbApvPERCHI8cOpTOKfMLVJNlXSCs4QRu8UsJ0HieeHyNKkHtUIQTZq3hv0pT7X0SUsLrRGEUsMTTpzwpdeIuw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('adminPanel/js/script.js') }}"></script>
 
     <!-- Theme JS -->

@@ -15,8 +15,6 @@ return new class extends Migration
     {
         Schema::create('product_info', function (Blueprint $table) {
             $table->id();
-            $table->text("discription_ar");
-            $table->text("discription_en");
             $table->string("size")->nullable();
             $table->unsignedBigInteger("color_id");
             $table->integer("qty")->default(0);

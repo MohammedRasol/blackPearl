@@ -11,8 +11,10 @@ class ProductInfo extends Model
 {
     use HasFactory;
     protected $table = "product_info";
-    protected $fillable = ["discription_en", "discription_ar", "size", "color", "product_id"];
+    protected $fillable = ["discription_en", "discription_ar", "size", "color", "product_id","qty"];
     protected $hidden = ["product_id", "id"];
+    public $timestamps = false;
+
 
     public function product()
     {

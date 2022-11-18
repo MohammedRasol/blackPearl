@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string("name_en");
             $table->double("price")->default(0);
             $table->double("spcial_price")->nullable();
+            $table->text("discription_ar")->nullable();
+            $table->text("discription_en")->nullable();
             $table->string("logo")->nullable();
             $table->integer("active")->default(1);
             $table->unsignedBigInteger("sub_category_id");

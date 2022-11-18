@@ -21,18 +21,7 @@ return [
     'settings' => 'Settings',
     'help' => 'Help',
     'edit_add_product' => 'Add/Edit Product',
-    // AddNewProduct 
-    // specification
-    // addProductSpec
-
-    
-
-
-    
-    
-    
-    
-
-    
-
+    'AddNewProduct' => 'Add New Product',
+    'specification' => 'Specification',
+    'addProductSpec' => 'Add Product Specification',
 ];
