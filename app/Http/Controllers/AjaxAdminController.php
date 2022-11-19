@@ -66,6 +66,9 @@ class AjaxAdminController extends Controller
             $imageType = Product::class;
         elseif ($req->imageType == "category")
             $imageType = Category::class;
+        elseif ($req->imageType == "subCategory")
+            $imageType = SubCategory::class;
+
 
         $file = $req->file('logo');
         $imageName = $file->getClientOriginalName();
@@ -105,26 +108,42 @@ class AjaxAdminController extends Controller
         }
         return $data;
     }
-
-
-    public function addCategoryImage(Request $req)
+    public function activeCategory(Request $req)
     {
+        $category = Category::find($req->id);
+        $category->active = $req->data ? 1 : 0;
+        $category->save();
 
-        $file = $req->file('logo');
-        $imageName = $file->getClientOriginalName();
-        $imageName = explode(".", $imageName);
-        $path = 'img/product/';
-        $fileName = $imageName[0] . time() . "." . $imageName[1];
-        $file->move($path, $fileName);
-        $file =  $_FILES["logo"];
-        $media = MultiMedia::create([
-            "element_type" => Category::class,
-            "element_id" => $req->catId,
-            "path" => $path . $fileName,
-        ]);
-        $data["data"]["id"] =  $media->id;
-        $data["data"]["path"] = public_path($path . $fileName);
-        $data["code"] = 200;
-        return   $data;
+        if ($category) {
+            $data["data"] = "success";
+            $data["code"] = 200;
+        } else {
+            $data["data"] = "Failed";
+            $data["code"] = 204;
+        }
+        return $data;
     }
+
+
+
+    // public function addCategoryImage(Request $req)
+    // {
+
+    //     $file = $req->file('logo');
+    //     $imageName = $file->getClientOriginalName();
+    //     $imageName = explode(".", $imageName);
+    //     $path = 'img/product/';
+    //     $fileName = $imageName[0] . time() . "." . $imageName[1];
+    //     $file->move($path, $fileName);
+    //     $file =  $_FILES["logo"];
+    //     $media = MultiMedia::create([
+    //         "element_type" => Category::class,
+    //         "element_id" => $req->catId,
+    //         "path" => $path . $fileName,
+    //     ]);
+    //     $data["data"]["id"] =  $media->id;
+    //     $data["data"]["path"] = public_path($path . $fileName);
+    //     $data["code"] = 200;
+    //     return   $data;
+    // }
 }

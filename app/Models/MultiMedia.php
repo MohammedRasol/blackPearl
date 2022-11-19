@@ -20,4 +20,9 @@ class MultiMedia extends Model
     {
         return $this->belongsTo(Category::class, "element_id", "id");
     }
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class, "element_id", "id");
+    }
+    
 }

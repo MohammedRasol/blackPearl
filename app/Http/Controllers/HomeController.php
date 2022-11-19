@@ -40,11 +40,12 @@ class HomeController extends Controller
                 $q->select("id", "name_en as name", "price", "sub_category_id")->limit(8);
             }]);
         }, "multiMedia" => function ($q) {
-            $q->select("element_id", "path")->where("logo", true);
+            $q->select("element_id", "path")->where("element_type", Category::class)->where("logo", true);
+
         }])->get(["id", "name_en as name", "active"]); //ADD MULTI LANGS
 
         $topRatedProducts = Product::with(["multiMedia" => function ($q) {
-            $q->select("element_id", "path")->where("logo", true);
+            $q->select("element_id", "path")->where("element_type", Product::class)->where("logo", true);
         }])->select(
             "id",
             "name_ar",
@@ -58,7 +59,7 @@ class HomeController extends Controller
         $products = Product::select("id", "name_en as name",)->with(["productInfo"  => function ($q) {
             $q->select("color_id", "size",  "product_id");
         }, "multiMedia" => function ($q) {
-            $q->select("element_id", "path")->where("logo", true);
+            $q->select("element_id", "path")->where("element_type", Product::class)->where("logo", true);
         }])->get(); //ADD MULTI LANGS
         return view('home', compact("categories", "products", "specialProduct", "topRatedProducts", "lastesProducts"));
     }

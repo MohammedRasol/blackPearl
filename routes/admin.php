@@ -21,5 +21,14 @@ Route::group(["prefix" => "admin"], function () {
     /* Category Routes */
     Route::get("/all-categories", "AdminController@allCategories")->name('allCategories');
     Route::get("/edit-category/{id}", "AdminController@getCategory")->name('getCategory');
+    Route::get("/add-category", "AdminController@addCategory")->name('addCategory');
+    Route::POST("/add-category", "AdminController@addCategoryFunction") ;
     Route::POST("/edit-category/{id}", "AdminController@editCategory") ;
+
+    /*Sub Category Routes */
+    Route::get("/all-sub-categories/{id}", "AdminController@allSubCategories")->name('allSubCategories');
+    Route::get("/edit-sub-category/{id}", "AdminController@getSubCategory")->name('getSubCategory');
+    Route::POST("/edit-sub-category/{id}", "AdminController@editSubCategory");
+    
+    
 });

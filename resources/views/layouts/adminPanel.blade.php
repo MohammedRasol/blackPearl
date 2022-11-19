@@ -623,7 +623,7 @@
                             <div class="collapse   {{ Route::currentRouteName() == 'allCategories' || Route::currentRouteName() == 'editCategory' || Route::currentRouteName() == 'addCategory' ? 'show' : '' }} "
                                 id="collapseMenuItemCategories">
                                 <ul class="submenu">
-                                    <li><a  href="{{ route('allCategories') }}"
+                                    <li><a href="{{ route('allCategories') }}"
                                             class="{{ Route::currentRouteName() == 'addCategories' ? 'active' : '' }}">All
                                             Categories</a></li>
                                     <li><a href="./user-listing.html"

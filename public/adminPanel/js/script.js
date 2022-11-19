@@ -168,7 +168,6 @@ function showPreViewImage(previewImg, elemntId) {
 }
 
 function saveImage(inputId, proId, isLogo = 0) {
-
     var image = document.getElementById(inputId);
     var CSRF_TOKEN = $('input[name="_token"]');
     var formData = new FormData()
@@ -208,6 +207,20 @@ function activeProduct(element, proId) {
     $.ajax({
         type: 'POST',
         url: '/ajax/admin/active-product/' + proId,
+        data: { _token: CSRF_TOKEN.val(), data: element.checked ? 1 : 0 },
+        success: function (data) {
+            $("#close").click();
+            $("#color-element-" + productInfoId).remove();
+        }
+    });
+}
+
+function activeCategory(element, proId) {
+
+    var CSRF_TOKEN = $('input[name="_token"]');
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/admin/active-category/' + proId,
         data: { _token: CSRF_TOKEN.val(), data: element.checked ? 1 : 0 },
         success: function (data) {
             $("#close").click();

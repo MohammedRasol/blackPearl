@@ -36,16 +36,27 @@
                      </div>
                  </div>
                  <div class="card-body">
+
+
                      <div class="d-flex justify-content-between align-items-center mb-3">
-                         <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center" method="post"
-                             action="">
-                             @csrf
-                             <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
-                                 value="{{ old('search') }}" placeholder="Search" aria-label="Search" name="search">
-                             <button class="btn btn-link p-0 text-muted" type="submit"><i
-                                     class="ri-search-2-line"></i></button>
+                         <div class="row col-12">
+                             <form
+                                 class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center col-md-4 col-sm-6"
+                                 method="post" action="">
+                                 @csrf
+                                 <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
+                                     value="{{ old('search') }}" placeholder="Search" aria-label="Search" name="search">
+                                 <button class="btn btn-link p-0 text-muted" type="submit"><i
+                                         class="ri-search-2-line"></i></button>
+                             </form>
+                             <div class="col-md-4 col-sm-6">
+                                 <a type="button" href="{{ route('addCategory') }}" class="btn btn-primary">Add
+                                     Category</a>
+                             </div>
+                         </div>
 
                      </div>
+
                      <div class="table-responsive min-height-table">
                          <table class="table m-0 table-striped">
                              <thead>
@@ -55,7 +66,13 @@
                                              <input type="checkbox" class="form-check-input" id="filter-">
                                          </div>
                                      </th>
-                                     <th>Category Name</th>
+                                     <th>
+                                         {{ isset($isSubCategory) ? 'Sub' : '' }}
+                                         Category Name</th>
+                                     @if (!isset($isSubCategory))
+                                         <th>Sub Categories</th>
+                                     @endif
+
                                      <th>Actions</th>
                                      <th>Status</th>
                                  </tr>
@@ -76,18 +93,22 @@
                                                  </div>
                                              </div>
                                          </td>
+                                         @if (!isset($isSubCategory))
+                                             <td><a href="all-sub-categories/{{ $category->id }}">Sub Categories</a></li>
+                                             </td>
+                                         @endif
                                          <td><a class="btn btn-primary btn-sm"
-                                                 href="edit-category/{{ $category->id }}">Edit</a></li>
+                                                 href="{{ !isset($isSubCategory) ? '/admin/edit-category' : '/admin/edit-sub-category' }}/{{ $category->id }}">Edit</a>
+                                             </li>
                                          </td>
                                          <td>
                                              <div class="form-check form-switch" style="float: left">
                                                  <input class="form-check-input " type="checkbox" id="active"
                                                      {{ $category->active ? 'checked' : '' }}
-                                                     onchange="activeProduct(this,'{{ $category->id }}')">
+                                                     onchange="activeCategory(this,'{{ $category->id }}')">
                                                  <label class="form-check-label" for="active">ACTIVE</label>
                                              </div>
                                          </td>
-
                                      </tr>
                                  @endforeach
                              </tbody>
