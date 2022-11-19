@@ -28,7 +28,7 @@
                 <br>
                 <center>
                     <button id="logo" class="btn btn-success text-white" type="button"
-                        onclick="saveImage('main-image',{{ $product->id }},1)">
+                        onclick="saveImage('main-image',@if (isset($category->id)) {{ $category->id }} @elseIf(isset($product->id)){{ $product->id }} @endIf )">
                         Save Image</button>
                 </center>
             </div>

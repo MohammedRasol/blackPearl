@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'instock' => 'Product is Stock',
+    'instock' => 'Products in Stock',
     'active' => 'Active',
     'deactivated' => 'Deactivated',
     'home' => 'Home',

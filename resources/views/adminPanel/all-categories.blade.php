@@ -55,15 +55,13 @@
                                              <input type="checkbox" class="form-check-input" id="filter-">
                                          </div>
                                      </th>
-                                     <th>Product Name</th>
-                                     <th>Sub Category</th>
-                                     <th>Price</th>
+                                     <th>Category Name</th>
                                      <th>Actions</th>
                                      <th>Status</th>
                                  </tr>
                              </thead>
                              <tbody>
-                                 @foreach ($products as $product)
+                                 @foreach ($categories as $category)
                                      <tr>
                                          <td>
                                              <div class="form-group form-check-custom mb-0">
@@ -72,63 +70,20 @@
                                          </td>
                                          <td>
                                              <div class="d-flex justify-content-start align-items-start">
-                                                 <div class="avatar avatar-xs me-3 flex-shrink-0">
-
-                                                     <picture>
-                                                         <img class="f-w-10 rounded-circle"
-                                                             @if (!empty($product->multiMedia[0]->path)) src=" {{ asset($product->multiMedia[0]->path) }}" 
-                                                              @else
-                                                                   src="{{ asset('img/product/no-product.png') }}" @endif
-                                                             alt="">
-                                                     </picture>
-                                                 </div>
                                                  <div>
                                                      <p class="fw-bolder mb-1 d-flex align-items-center lh-1">
-                                                         {{ $product->name }}
-                                                         <span class="d-block f-w-4 ms-1 lh-1 text-primary">
-                                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                                 viewBox="0 0 20 20" fill="currentColor">
-                                                                 <path fill-rule="evenodd"
-                                                                     d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                                     clip-rule="evenodd" />
-                                                             </svg>
-                                                         </span>
-                                                     </p>
-
-                                                     <span class="d-block text-muted">
-                                                         {{ __('admin-pages.instock') }} : @if (!empty($product->getProductQty[0]->totalQty))
-                                                             {{ $product->getProductQty[0]->totalQty }}
-                                                         @else
-                                                             0
-                                                         @endif
-                                                     </span>
-
+                                                         {{ $category->name_en }}</p>
                                                  </div>
                                              </div>
                                          </td>
-                                         <td>
-                                             @if (!empty($product->subCategory->name))
-                                                 {{ $product->subCategory->name }}
-                                             @else
-                                                 -
-                                             @endif
-                                         </td>
-                                         <td class="text-muted">$
-                                             @if (!empty($product->price))
-                                                 {{ $product->price }}
-                                             @else
-                                                 -
-                                             @endif
-                                         </td>
-
                                          <td><a class="btn btn-primary btn-sm"
-                                                 href="edit-product/{{ $product->id }}">Edit</a></li>
+                                                 href="edit-category/{{ $category->id }}">Edit</a></li>
                                          </td>
                                          <td>
                                              <div class="form-check form-switch" style="float: left">
                                                  <input class="form-check-input " type="checkbox" id="active"
-                                                     {{ $product->active ? 'checked' : '' }}
-                                                     onchange="activeProduct(this,'{{ $product->id }}')">
+                                                     {{ $category->active ? 'checked' : '' }}
+                                                     onchange="activeProduct(this,'{{ $category->id }}')">
                                                  <label class="form-check-label" for="active">ACTIVE</label>
                                              </div>
                                          </td>
@@ -140,7 +95,7 @@
                      </div>
                      <br>
                      <div class="d-flex justify-content-center">
-                         {{ $products->links() }}
+                         {{ $categories->links() }}
                      </div>
                  </div>
              </div>

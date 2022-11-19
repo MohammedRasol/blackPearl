@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('element_type');
             $table->string("path");
             $table->string("color")->nullable();
+            $table->boolean("logo")->default(false);
             $table->timestamp("date");
         });
     }

@@ -14,13 +14,19 @@ class Product extends Model
 {
     use HasFactory;
     protected $table = "products";
-    protected $fillable = ["name_ar", "name_en", "logo", "active", "price", "sub_category_id","discription_en","discription_ar"];
+    protected $fillable = ["name_ar", "name_en", "active", "price", "sub_category_id", "discription_en", "discription_ar"];
     public $timestamps = false;
 
     public function productInfo()
     {
         return $this->hasMany(ProductInfo::class, "product_id", "id");
     }
+    public function getProductQty()
+    {
+        return $this->hasMany(ProductInfo::class, "product_id", "id")->selectRaw("product_id,SUM(qty) as totalQty ")->groupBy('product_id');
+    }
+
+
     public function subCategory()
     {
         return $this->belongsTo(SubCategory::class, "sub_category_id", "id");
@@ -40,6 +46,6 @@ class Product extends Model
 
     public function multiMedia()
     {
-        return $this->hasMany(MultiMedia::class,"element_id","id");
+        return $this->hasMany(MultiMedia::class, "element_id", "id");
     }
 }

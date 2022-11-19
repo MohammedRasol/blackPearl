@@ -26,7 +26,7 @@ function getProductInfo(id = 0) {
     color.val("");
     $.ajax({
         type: 'get',
-        url: '/admin/ajax/get-product-info/' + id,
+        url: '/ajax/admin/get-product-info/' + id,
         success: function (data) {
             loading.hide("fast", function () {
                 if (data.code == 200) {
@@ -87,7 +87,7 @@ function addProductInfo(proId) {
     var colorDiv = $("#colors-div");
     $.ajax({
         type: 'POST',
-        url: '/admin/ajax/add-product-info/' + proId,
+        url: '/ajax/admin/add-product-info/' + proId,
         data: { _token: CSRF_TOKEN.val(), data: JSON.stringify(jsonData) },
         success: function (data) {
             loading.hide("fast", function () {
@@ -101,6 +101,10 @@ function addProductInfo(proId) {
         }
     });
 }
+
+
+
+
 function saveProductInfo() {
     var loading = $("#loading-product-info");
     var size = $("#size");
@@ -111,7 +115,7 @@ function saveProductInfo() {
     jsonData.push({ "qty": qty.val() });
     $.ajax({
         type: 'POST',
-        url: '/admin/ajax/save-product-info/' + productInfoId,
+        url: '/ajax/admin/save-product-info/' + productInfoId,
         data: { _token: CSRF_TOKEN.val(), data: JSON.stringify(jsonData) },
         success: function (data) {
             loading.hide("fast", function () {
@@ -127,7 +131,7 @@ function deleteProductInfo() {
 
     $.ajax({
         type: 'delete',
-        url: '/admin/ajax/delete-product-info/' + productInfoId,
+        url: '/ajax/admin/delete-product-info/' + productInfoId,
         data: { _token: CSRF_TOKEN.val() },
         success: function (data) {
             $("#close").click();
@@ -143,7 +147,7 @@ function deleteImage(id) {
         var CSRF_TOKEN = $('input[name="_token"]');
         $.ajax({
             type: 'delete',
-            url: '/admin/ajax/delete-product-img/' + id,
+            url: '/ajax/admin/delete-product-img/' + id,
             data: { _token: CSRF_TOKEN.val() },
             success: function (data) {
                 $("#image-" + id).remove();
@@ -164,14 +168,15 @@ function showPreViewImage(previewImg, elemntId) {
 }
 
 function saveImage(inputId, proId, isLogo = 0) {
-    var inputFile = document.getElementById("logo-imaeg-form");
+
     var image = document.getElementById(inputId);
     var CSRF_TOKEN = $('input[name="_token"]');
     var formData = new FormData()
     formData.append("_token", CSRF_TOKEN.val());
     formData.append("logo", image.files[0]);
+    formData.append("imageType", $("#image-type").val());
     $.ajax({
-        url: '/admin/ajax/add-product-logo/' + proId,
+        url: '/ajax/admin/add-image/' + proId,
         method: 'POST',
         data: formData,
         dataType: 'JSON',
@@ -196,5 +201,17 @@ function saveImage(inputId, proId, isLogo = 0) {
 
     });
 }
+ 
+function activeProduct(element, proId) {
 
-
+    var CSRF_TOKEN = $('input[name="_token"]');
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/admin/active-product/' + proId,
+        data: { _token: CSRF_TOKEN.val(), data: element.checked ? 1 : 0 },
+        success: function (data) {
+            $("#close").click();
+            $("#color-element-" + productInfoId).remove();
+        }
+    });
+}

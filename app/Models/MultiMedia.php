@@ -10,11 +10,14 @@ class MultiMedia extends Model
 {
     use HasFactory;
     protected $table = "multimedia";
-    protected $fillable = ["element_type", "element_id", "path","color"];
+    protected $fillable = ["element_type", "element_id","logo", "path","color"];
     public $timestamps = false;
     public function products()
     {
         return $this->belongsTo(Product::class, "element_id", "id");
-        // "mediable_type", "mediable_id", "id"
+    }
+    public function categories()
+    {
+        return $this->belongsTo(Category::class, "element_id", "id");
     }
 }

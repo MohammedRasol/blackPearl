@@ -31,6 +31,7 @@
                  @endif
              </h2>
              <form action="" method="POST">
+                <input type="hidden" id="image-type" value="product">
                  @csrf
                  <div class="card mb-4">
                      <div class="card-header justify-content-between align-items-center d-flex">
@@ -45,12 +46,14 @@
 
                          <div class="dropdown">
 
-                             <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button" 
+                             <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
                                  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                  <i class="ri-more-2-line"></i>
                              </button>
                              <div class="form-check form-switch" style="float: left">
-                                 <input class="form-check-input " type="checkbox" id="active" checked>
+                                 <input class="form-check-input " type="checkbox" id="active"
+                                     {{ $product->active ? 'checked' : '' }}
+                                     onchange="activeProduct(this,'{{ $product->id }}')">
                                  <label class="form-check-label" for="active">ACTIVE</label>
                              </div>
                              <ul class="dropdown-menu dropdown" aria-labelledby="dropdownMenuButton1">
@@ -76,13 +79,13 @@
                                      <div class="mb-3">
                                          <label for="product-name" class="form-label">Product Name ENGLISH</label>
                                          <input type="text" class="form-control" id="product-name" name="name_en"
-                                             value="{{ $product->name_ar }}" placeholder="Product Name ENGLISH">
+                                             value="{{ $product->name_en }}" placeholder="Product Name ENGLISH">
                                      </div>
                                      <div class="mb-3">
                                          <label for="product-name" class="form-label">Product Discription Arabic</label>
                                          <textarea class="form-control" dir="rtl" id="discription_ar" name="discription_ar" rows="5">{{ $product->discription_ar }}</textarea>
                                      </div>
-                                     <div class="mb-3" >
+                                     <div class="mb-3">
                                          <label for="product-name" class="form-label">Product Discription ENGLISH</label>
                                          <textarea dir="ltr" class="form-control" dir="rtl" id="discription_en" name="discription_en" rows="5">{{ $product->discription_en }}</textarea>
                                      </div>
@@ -128,7 +131,7 @@
                                          </div>
                                          <div class="col-12  ">
                                              <div class="mb-4">
-                                                 <button class="btn btn-primary btn-sm"  type="button"
+                                                 <button class="btn btn-primary btn-sm" type="button"
                                                      data-bs-toggle="offcanvas" href="#add-images" role="button"
                                                      aria-controls="color-add" title="Add Images">Add Images</button>
 
@@ -139,7 +142,6 @@
                                                                  dir="rtl">
                                                                  <div class="thumbnail">
                                                                      <a type="button" class="text-danger large-text"
-                                                                     
                                                                          onclick="deleteImage('{{ $img->id }}')">
                                                                          <i class="fa-solid fa-circle-minus"></i></a>
 
@@ -152,6 +154,7 @@
                                                                      <div class="form-check form-switch"
                                                                          style="float: left">
                                                                          <input class="form-check-input " type="radio"
+                                                                             {{ $img->logo ? 'checked' : '' }}
                                                                              value="{{ $img->id }}" required
                                                                              name="logo"id="active">
                                                                          logo
@@ -170,44 +173,47 @@
                                                              </div>
                                                          @endforeach
                                                      </div>
+                                                 </div>
+                                             </div>
+                                             <div class="mb-3">
+                                                 <h3> Product SPEC </h3>
 
+                                                 <button class="btn btn-primary btn-sm" style=""
+                                                     data-bs-toggle="offcanvas" href="#en-drawer" role="button"
+                                                     onclick="showProductInfo({{ $product->id }})"
+                                                     aria-controls="color-add" type="button" title="إضافة خصائص">Add
+                                                     Product Spec</button>
+
+                                                 <h5 class="mt-5 colors-div-content"> Product Color <small
+                                                         class="small-text">
+                                                         Press oncolorto see all details</small></h5>
+                                                 <span id="colors-div">
+
+                                                     @foreach ($product->productInfo as $item)
+                                                         <button class="btn color-btn"
+                                                             id="color-element-{{ $item->id }}" type="button"
+                                                             style="background-color:{{ $item->color->hex }}"
+                                                             data-bs-toggle="offcanvas" href="#en-drawer" role="button"
+                                                             onclick="getProductInfo({{ $item->id }})"
+                                                             aria-controls="color-{{ $item->color['id'] }}"
+                                                             title="{{ $item->color['name_ar'] }}"></button>
+                                                     @endforeach
+                                                 </span>
+
+                                             </div>
+                                             <div class="mb-3">
+                                                 <button style="width:50%;" class="btn  btn-success text-white"
+                                                     type="submit"> Save</button>
+                                             </div>
+                                         </div>
+
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
              </form>
-             </div>
-             </div>
-             <div class="mb-3">
-                 <h3> Product SPEC </h3>
-
-                 <button class="btn btn-primary btn-sm" style="" data-bs-toggle="offcanvas" href="#en-drawer"
-                     role="button" onclick="showProductInfo({{ $product->id }})" aria-controls="color-add" type="button"
-                     title="إضافة خصائص">Add Product Spec</button>
-
-                 <h5 class="mt-5 colors-div-content"> Product Color <small class="small-text">
-                         Press oncolorto see all details</small></h5>
-                 <span id="colors-div">
-
-                     @foreach ($product->productInfo as $item)
-                         <button class="btn color-btn" id="color-element-{{ $item->id }}" type="button"
-                             style="background-color:{{ $item->color->hex }}" data-bs-toggle="offcanvas"
-                             href="#en-drawer" role="button" onclick="getProductInfo({{ $item->id }})"
-                             aria-controls="color-{{ $item->color['id'] }}"
-                             title="{{ $item->color['name_ar'] }}"></button>
-                     @endforeach
-                 </span>
-
-             </div>
-             <div class="mb-3">
-                 <button style="width:50%;" class="btn  btn-success text-white" type="submit"> Save</button>
-             </div>
-             </div>
-
-             </div>
-             </div>
-             </div>
-             </div>
-             </div>
-             </div>
-             </form>
-
              @extends('adminPanel.modals.add-images')
              @extends('adminPanel.modals.en-drawer')
              @extends('adminPanel.modals.showImg')

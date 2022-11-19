@@ -21,7 +21,6 @@ return new class extends Migration
             $table->double("spcial_price")->nullable();
             $table->text("discription_ar")->nullable();
             $table->text("discription_en")->nullable();
-            $table->string("logo")->nullable();
             $table->integer("active")->default(1);
             $table->unsignedBigInteger("sub_category_id");
             $table->foreign("sub_category_id")->references("id")->on("sub_category");

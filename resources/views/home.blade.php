@@ -62,7 +62,9 @@
                     @foreach ($categories as $item)
                         <div class="col-lg-3">
                             <div class="categories__item set-bg"
-                                data-setbg="{{ asset('img/product/details/' . $item->logo) }}">
+                                @if (!empty($item->multiMedia[0]->path)) data-setbg=" {{ asset($item->multiMedia[0]->path) }}" 
+                            @else
+                            data-setbg="{{ asset('img/product/no-product.png') }}" @endif>
                                 <h5><a href="#">{{ $item->name }}</a></h5>
                             </div>
                         </div>
@@ -98,13 +100,15 @@
             <div class="row featured__filter">
                 <!-- 8 items/products -->
                 @foreach ($categories as $item)
-                    @if ($item->sub_category != '')
-                        @foreach ($item->sub_category as $subCat)
+                    @if ($item->subCategory != '')
+                        @foreach ($item->subCategory as $subCat)
                             @foreach ($subCat->products as $product)
                                 <div class="col-lg-3 col-md-4 col-sm-6 mix  {{ $item->name }}  {{ $product->name }}">
                                     <div class="featured__item">
                                         <div class="featured__item__pic set-bg"
-                                            data-setbg="{{ asset('img/product/logo/' . $product->logo) }}">
+                                            @if (!empty($product->multiMedia[0]->path)) data-setbg=" {{ asset($product->multiMedia[0]->path) }}" 
+                                        @else
+                                        data-setbg="{{ asset('img/product/no-product.png') }}" @endif>
                                             <ul class="featured__item__pic__hover">
                                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -162,7 +166,11 @@
                                 @endif
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/product/logo/' . $product->logo) }}" alt="">
+                                        <img @if (!empty($product->multiMedia[0]->path)) src=" {{ asset($product->multiMedia[0]->path) }}" 
+                                        @else
+                                             src="{{ asset('img/product/no-product.png') }}" @endif
+                                            alt="">
+
                                     </div>
                                     <div class="latest-product__item__text">
                                         <span> {{ $product->name }}</span>
@@ -176,33 +184,40 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <!-- Latest Products -->
-                    <h4>Special Products</h4>
-                    <div class="latest-product__slider owl-carousel">
-                        @foreach ($specialProduct as $key => $item)
-                            @foreach ($item->products as $product)
-                                @if ($key % 3 == 0 && $key != '')
-                                    <div class="latest-prdouct__slider__item">
-                                @endif
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/product/logo/' . $product->logo) }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <span> {{ $product->name }}</span>
-                                        <h6>${{ $product->price }}</h6>
-                                    </div>
-                                </a>
-                                @if ($key % 3 == 0 && $key != '')
-                    </div>
-                    @endif
-                    @endforeach
-                    @endforeach
-                </div>
-            </div>
+            @if (!empty($specialProduct[0]))
+               
+                <div class="col-lg-4 col-md-6">
+                    <div class="latest-product__text">
+                        <!-- Latest Products -->
+                        <h4>Special Products</h4>
+                        <div class="latest-product__slider owl-carousel">
+                            @foreach ($specialProduct as $key => $item)
+                                @foreach ($item->products as $product)
+                                    @if ($key % 3 == 0 && $key != '')
+                                        <div class="latest-prdouct__slider__item">
+                                    @endif
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img @if (!empty($product->multiMedia[0]->path)) src=" {{ asset($product->multiMedia[0]->path) }}" 
+                                        @else
+                                             src="{{ asset('img/product/no-product.png') }}" @endif
+                                                alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <span> {{ $product->name }}</span>
+                                            <h6>${{ $product->price }}</h6>
+                                        </div>
+                                    </a>
+                                    @if ($key % 3 == 0 && $key != '')
+                        </div>
+            @endif
+            @endforeach
+            @endforeach
         </div>
+        </div>
+        </div>
+        @endif
+
         <div class="col-lg-4 col-md-6">
             <div class="latest-product__text">
                 <!-- Latest Products -->
@@ -214,7 +229,10 @@
                         @endif
                         <a href="#" class="latest-product__item">
                             <div class="latest-product__item__pic">
-                                <img src="{{ asset('img/product/logo/' . $product->logo) }}" alt="">
+                                <img @if (!empty($product->multiMedia[0]->path)) src=" {{ asset($product->multiMedia[0]->path) }}" 
+                                @else
+                                     src="{{ asset('img/product/no-product.png') }}" @endif
+                                    alt="">
                             </div>
                             <div class="latest-product__item__text">
                                 <span> {{ $item->name }}</span>
