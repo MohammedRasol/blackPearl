@@ -24,5 +24,8 @@ class MultiMedia extends Model
     {
         return $this->belongsTo(SubCategory::class, "element_id", "id");
     }
-    
+    public function user()
+    {
+        return $this->belongsTo(User::class, "element_id", "id");
+    }
 }

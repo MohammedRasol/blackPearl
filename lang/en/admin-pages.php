@@ -24,4 +24,6 @@ return [
     'AddNewProduct' => 'Add New Product',
     'specification' => 'Specification',
     'addProductSpec' => 'Add Product Specification',
+    'AddNewUser' => 'Add User',
+    // 
 ];

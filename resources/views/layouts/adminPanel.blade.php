@@ -634,8 +634,9 @@
                         </li>
                         <!-- Pages Menu Section-->
                         <li class="menu-section mt-4">User Management</li>
-                        <li class="menu-item"><a class="d-flex align-items-center collapsed" href="#"
-                                data-bs-toggle="collapse" data-bs-target="#collapseMenuItemUsers"
+                        <li class="menu-item"><a
+                                class="d-flex align-items-center  {{ Route::currentRouteName() == 'allUsers' || Route::currentRouteName() == 'editUsers' || Route::currentRouteName() == 'addUsers' ? '' : 'collapsed' }} "
+                                href="#" data-bs-toggle="collapse" data-bs-target="#collapseMenuItemUsers"
                                 aria-expanded="false" aria-controls="collapseMenuItemUsers">
                                 <span class="menu-icon">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -663,9 +664,11 @@
                                     </svg>
                                 </span>
                                 <span class="menu-link">Users</span></a>
-                            <div class="collapse" id="collapseMenuItemUsers">
+                            <div class="collapse  {{ Route::currentRouteName() == 'allUsers' || Route::currentRouteName() == 'editUsers' || Route::currentRouteName() == 'addUsers' ? 'show' : '' }}"
+                                id="collapseMenuItemUsers">
                                 <ul class="submenu">
-                                    <li><a href="./user-listing.html">User Listing</a></li>
+                                    <li><a href="{{ route('allUsers') }}"
+                                            class="{{ Route::currentRouteName() == 'allUsers' ? 'active' : '' }}">All Users</a></li>
                                 </ul>
                             </div>
                         </li>

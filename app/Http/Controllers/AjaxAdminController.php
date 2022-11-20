@@ -9,6 +9,7 @@ use App\Models\SubCategory;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\MultiMedia;
+use App\Models\User;
 
 class AjaxAdminController extends Controller
 {
@@ -68,8 +69,16 @@ class AjaxAdminController extends Controller
             $imageType = Category::class;
         elseif ($req->imageType == "subCategory")
             $imageType = SubCategory::class;
+        elseif ($req->imageType == "user")
+            $imageType = User::class;
 
 
+        if ($req->imageType == "user") {
+            $userImg = MultiMedia::where("element_id", $req->id)->where("element_type", $imageType)->first();
+            if(isset($userImg ))
+             $userImg->delete();
+           
+        }
         $file = $req->file('logo');
         $imageName = $file->getClientOriginalName();
         $imageName = explode(".", $imageName);
@@ -124,26 +133,19 @@ class AjaxAdminController extends Controller
         return $data;
     }
 
+    public function activeUser(Request $req)
+    {
+        $category = User::find($req->id);
+        $category->active = $req->data ? 1 : 0;
+        $category->save();
 
-
-    // public function addCategoryImage(Request $req)
-    // {
-
-    //     $file = $req->file('logo');
-    //     $imageName = $file->getClientOriginalName();
-    //     $imageName = explode(".", $imageName);
-    //     $path = 'img/product/';
-    //     $fileName = $imageName[0] . time() . "." . $imageName[1];
-    //     $file->move($path, $fileName);
-    //     $file =  $_FILES["logo"];
-    //     $media = MultiMedia::create([
-    //         "element_type" => Category::class,
-    //         "element_id" => $req->catId,
-    //         "path" => $path . $fileName,
-    //     ]);
-    //     $data["data"]["id"] =  $media->id;
-    //     $data["data"]["path"] = public_path($path . $fileName);
-    //     $data["code"] = 200;
-    //     return   $data;
-    // }
+        if ($category) {
+            $data["data"] = "success";
+            $data["code"] = 200;
+        } else {
+            $data["data"] = "Failed";
+            $data["code"] = 204;
+        }
+        return $data;
+    }
 }

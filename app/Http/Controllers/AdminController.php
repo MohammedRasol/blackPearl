@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\User;
 use App\Models\Product;
 use App\Models\ProductInfo;
 use App\Models\SubCategory;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\MultiMedia;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class AdminController extends Controller
 {
@@ -84,13 +86,21 @@ class AdminController extends Controller
         return $productInfo;
     }
 
-    public function allProducts()
+    public function allProducts(Request $req)
     {
-        $products = Product::with(["subCategory" => function ($q) {
-            $q->select("id", "name_en as name");
-        }, "getProductQty", "multiMedia" => function ($q) {
-            $q->select("element_id", "path")->where("logo", true)->where("element_type", Product::class);
-        }])->select("name_en as name",   "sub_category_id", "id", "price", "active")->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
+        if (empty($req->subCatId)) {
+            $products = Product::with(["subCategory" => function ($q) {
+                $q->select("id", "name_en as name");
+            }, "getProductQty", "multiMedia" => function ($q) {
+                $q->select("element_id", "path")->where("logo", true)->where("element_type", Product::class);
+            }])->select("name_en as name",   "sub_category_id", "id", "price", "active")->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
+        } else {
+            $products = Product::with(["subCategory" => function ($q) {
+                $q->select("id", "name_en as name");
+            }, "getProductQty", "multiMedia" => function ($q) {
+                $q->select("element_id", "path")->where("logo", true)->where("element_type", Product::class);
+            }])->select("name_en as name",   "sub_category_id", "id", "price", "active")->where("sub_category_id", $req->subCatId)->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
+        }
 
         return view("adminPanel.all-products", compact("products"));
     }
@@ -198,9 +208,50 @@ class AdminController extends Controller
         $subCategory->name_ar = $req->name_ar;
         $subCategory->name_en = $req->name_en;
         $subCategory->save();
-        
+
         $subCategory->multiMedia()->update(["logo" => false]);
         $subCategory->multiMedia()->where("id", $req->logo)->update(["logo" => true]);
-        return redirect()->back();
+        return redirect()->back()->withInput();
+    }
+    public function allUsers()
+    {
+        $users = User::paginate(5);
+        return view("adminPanel.all-users", compact("users"));
+    }
+
+    public function getUser(Request $req)
+    {
+        if (isset($req->id)) {
+            $user = User::with(["multiMedia" => function ($q) {
+                $q->select("element_id", "path", "id")->where("element_type", User::class);
+            }])->find($req->id);
+            $images[] =  $user->multiMedia;
+        } else {
+            $user = [];
+            $images = [];
+        }
+
+        return view("adminPanel.show-user", compact("user", "images"));
+    }
+
+    public function saveUser(Request $req)
+    {
+        $user = User::find($req->id);
+        $user->name = $req->name;
+        $user->phone = $req->phone;
+        $user->email = $req->email;
+        $user->save();
+        return redirect()->back()->withInput();
+    }
+    public function addUser(Request $req)
+    {
+        $user = User::create([
+            "name" => $req->name,
+            "phone" => $req->phone,
+            "email" => $req->email,
+            "password" => bcrypt($req->password),
+        ]);
+
+        return redirect("/admin/edit-user/" . $user->id);
     }
 }

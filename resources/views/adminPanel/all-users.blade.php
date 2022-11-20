@@ -22,7 +22,7 @@
 
              <div class="card mb-4">
                  <div class="card-header justify-content-between align-items-center d-flex">
-                     <h6 class="card-title m-0">Products Management</h6>
+                     <h6 class="card-title m-0">Users Management</h6>
                      <div class="dropdown">
                          <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0" type="button"
                              id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,8 +50,7 @@
                                          class="ri-search-2-line"></i></button>
                              </form>
                              <div class="col-md-4 col-sm-6">
-                                 <a type="button" href="{{ route('addCategory') }}" class="btn btn-primary">Add
-                                     Category</a>
+                                 <a type="button" href="{{'/admin/add-user/'}}" class="btn btn-primary">Add User</a>
                              </div>
                          </div>
 
@@ -66,23 +65,15 @@
                                              <input type="checkbox" class="form-check-input" id="filter-">
                                          </div>
                                      </th>
-                                     <th>
-                                         {{ isset($isSubCategory) ? 'Sub' : '' }}
-                                         Category Name</th>
-                                     @if (!isset($isSubCategory))
-                                         <th>Sub Categories</th>
-                                     @endif
-
-                                     @if (isset($isSubCategory))
-                                         <th>Products</th>
-                                     @endif
-
+                                     <th>User ID</th>
+                                     <th>User Name</th>
+                                     <th>User Email</th>
                                      <th>Actions</th>
                                      <th>Status</th>
                                  </tr>
                              </thead>
                              <tbody>
-                                 @foreach ($categories as $category)
+                                 @foreach ($users as $user)
                                      <tr>
                                          <td>
                                              <div class="form-group form-check-custom mb-0">
@@ -93,30 +84,35 @@
                                              <div class="d-flex justify-content-start align-items-start">
                                                  <div>
                                                      <p class="fw-bolder mb-1 d-flex align-items-center lh-1">
-                                                         {{ $category->name_en }}</p>
+                                                         {{ $user->id }}</p>
                                                  </div>
                                              </div>
                                          </td>
-                                         @if (!isset($isSubCategory))
-                                             <td><a href="all-sub-categories/{{ $category->id }}">Sub Categories</a></li>
-                                             </td>
-                                         @endif
-                                         @if (isset($isSubCategory))
-                                             <td><a class=""
-                                                     href="{{ '/admin/all-products/'.$category->id }}"><b><u>Products</u></b></a>
-                                                 </li>
-                                             </td>
-                                         @endif
-
+                                         <td>
+                                             <div class="d-flex justify-content-start align-items-start">
+                                                 <div>
+                                                     <p class="fw-bolder mb-1 d-flex align-items-center lh-1">
+                                                         {{ $user->name }}</p>
+                                                 </div>
+                                             </div>
+                                         </td>
+                                         <td>
+                                             <div class="d-flex justify-content-start align-items-start">
+                                                 <div>
+                                                     <p class="fw-bolder mb-1 d-flex align-items-center lh-1">
+                                                         {{ $user->email }}</p>
+                                                 </div>
+                                             </div>
+                                         </td>
                                          <td><a class="btn btn-primary btn-sm"
-                                                 href="{{ !isset($isSubCategory) ? '/admin/edit-category' : '/admin/edit-sub-category' }}/{{ $category->id }}">Edit</a>
+                                                 href="{{ '/admin/edit-user/' . $user->id }}">Edit</a>
                                              </li>
                                          </td>
                                          <td>
                                              <div class="form-check form-switch" style="float: left">
                                                  <input class="form-check-input " type="checkbox" id="active"
-                                                     {{ $category->active ? 'checked' : '' }}
-                                                     onchange="activeCategory(this,'{{ $category->id }}')">
+                                                     {{ $user->active ? 'checked' : '' }}
+                                                     onchange="activeUser(this,'{{ $user->id }}')">
                                                  <label class="form-check-label" for="active">ACTIVE</label>
                                              </div>
                                          </td>
@@ -127,7 +123,7 @@
                      </div>
                      <br>
                      <div class="d-flex justify-content-center">
-                         {{ $categories->links() }}
+                         {{ $users->links() }}
                      </div>
                  </div>
              </div>

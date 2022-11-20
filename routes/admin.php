@@ -12,6 +12,7 @@ Route::group(["prefix" => "admin"], function () {
 
     /* product Routes */
     Route::get("/all-products", "AdminController@allProducts")->name('allProducts');
+    Route::get("/all-products/{subCatId}", "AdminController@allProducts");
     Route::POST("/all-products", "AdminController@searchProducts")->name('searchProducts');
     Route::get("/add-product", "AdminController@addProduct")->name('addProduct');
     Route::POST("/add-product", "AdminController@addProductFunction");
@@ -22,13 +23,20 @@ Route::group(["prefix" => "admin"], function () {
     Route::get("/all-categories", "AdminController@allCategories")->name('allCategories');
     Route::get("/edit-category/{id}", "AdminController@getCategory")->name('getCategory');
     Route::get("/add-category", "AdminController@addCategory")->name('addCategory');
-    Route::POST("/add-category", "AdminController@addCategoryFunction") ;
-    Route::POST("/edit-category/{id}", "AdminController@editCategory") ;
+    Route::POST("/add-category", "AdminController@addCategoryFunction");
+    Route::POST("/edit-category/{id}", "AdminController@editCategory");
 
     /*Sub Category Routes */
     Route::get("/all-sub-categories/{id}", "AdminController@allSubCategories")->name('allSubCategories');
     Route::get("/edit-sub-category/{id}", "AdminController@getSubCategory")->name('getSubCategory');
     Route::POST("/edit-sub-category/{id}", "AdminController@editSubCategory");
+
+    /*Sub Category Routes */
+    Route::get("/all-users", "AdminController@allUsers")->name('allUsers');
+    Route::get("/edit-user/{id}", "AdminController@getUser")->name('getUser');
+    Route::get("/add-user", "AdminController@getUser") ;
+    Route::POST("/add-user", "AdminController@addUser") ;
+    Route::POST("/edit-user/{id}", "AdminController@saveUser")->name('saveUser');
+
     
-    
-});
+ });

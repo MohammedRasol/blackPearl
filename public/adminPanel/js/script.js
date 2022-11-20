@@ -160,7 +160,12 @@ function deleteImage(id) {
 function selectImage(inputFile) {
     $("#" + inputFile).click();
 }
+
+var image = "";
 function showPreViewImage(previewImg, elemntId) {
+    if (previewImg.files.length > 0)
+        image = previewImg;
+
     const [file] = previewImg.files
     if (file) {
         $("#" + elemntId).attr("src", URL.createObjectURL(file));
@@ -168,7 +173,7 @@ function showPreViewImage(previewImg, elemntId) {
 }
 
 function saveImage(inputId, proId, isLogo = 0) {
-    var image = document.getElementById(inputId);
+
     var CSRF_TOKEN = $('input[name="_token"]');
     var formData = new FormData()
     formData.append("_token", CSRF_TOKEN.val());
@@ -186,10 +191,14 @@ function saveImage(inputId, proId, isLogo = 0) {
             var body = "<div class='col-md-3 border' id ='image-" + data.data.id + "' dir = 'rtl' >" +
                 "<div class='thumbnail'><a type='button' class='text-danger large-text' onclick='deleteImage(  " + data.data.id + " )'>" +
                 "<i class='fa-solid fa-circle-minus'></i></a><a type='button' class='text-primary large-text' data-bs-toggle='modal' onclick='showImage( " + data.data.path + " )' data-bs-target='#showImg'>" +
-                "<i class='fa-solid fa-maximize'></i> </a>" +
-                "<div class='form-check form-switch' style='float: left'><input class='form-check-input ' type='radio' value='" + data.data.id + "' required name='logo' id='active'>logo</div>" +
-                "<img  id ='img-" + data.data.id + "'   alt='Lights' class='product-image'><div class='caption text-center'><center> </center></div></div></div >";
-            $("#images-div").append(body);
+                "<i class='fa-solid fa-maximize'></i> </a>";
+            if ($("#image-type").val() != "user")
+                body += "<div class='form-check form-switch' style='float: left'><input class='form-check-input ' type='radio' value='" + data.data.id + "' required name='logo' id='active'>logo</div>";
+            body += "<img  id ='img-" + data.data.id + "'   alt='Lights' class='product-image'><div class='caption text-center'><center> </center></div></div></div >";
+            if ($("#image-type").val() == "user")
+                $("#images-div").html(body);
+            else
+                $("#images-div").append(body);
             const [file] = document.getElementById(inputId).files;
             if (file) {
                 $('#img-' + data.data.id).attr("src", URL.createObjectURL(file));
@@ -200,7 +209,7 @@ function saveImage(inputId, proId, isLogo = 0) {
 
     });
 }
- 
+
 function activeProduct(element, proId) {
 
     var CSRF_TOKEN = $('input[name="_token"]');
@@ -221,6 +230,19 @@ function activeCategory(element, proId) {
     $.ajax({
         type: 'POST',
         url: '/ajax/admin/active-category/' + proId,
+        data: { _token: CSRF_TOKEN.val(), data: element.checked ? 1 : 0 },
+        success: function (data) {
+            $("#close").click();
+            $("#color-element-" + productInfoId).remove();
+        }
+    });
+}
+
+function activeUser(element, userId) {
+    var CSRF_TOKEN = $('input[name="_token"]');
+    $.ajax({
+        type: 'POST',
+        url: '/ajax/admin/active-user/' + userId,
         data: { _token: CSRF_TOKEN.val(), data: element.checked ? 1 : 0 },
         success: function (data) {
             $("#close").click();
