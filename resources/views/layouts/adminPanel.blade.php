@@ -626,7 +626,7 @@
                                     <li><a href="{{ route('allCategories') }}"
                                             class="{{ Route::currentRouteName() == 'addCategories' ? 'active' : '' }}">All
                                             Categories</a></li>
-                                    <li><a href="./user-listing.html"
+                                    <li><a href="{{ route('addCategory') }}"
                                             class=" {{ Route::currentRouteName() == 'addCategory' ? 'active' : '' }}">Add
                                             Category</a></li>
                                 </ul>
