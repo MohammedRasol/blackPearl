@@ -30,6 +30,7 @@ class HomeController extends Controller
      */
     public function index(REQUEST $req)
     {
+
         $currentDate = Carbon::now()->toDateString();
           $specialProduct = SpecialProduct::with(["products" => function ($q) {
             $q->where("active", "=", 1)->select("name_en as name", "id", "price");
