@@ -41,12 +41,14 @@
                                  <div class="card-body">
                                      <div class="mb-3">
                                          <label for="product-name" class="form-label">Product Name ARABIC</label>
-                                         <input type="text" class="form-control" id="product-name" name="name_ar"  value="{{ old('name_ar') }}" required="required"
+                                         <input type="text" class="form-control" id="product-name" name="name_ar"
+                                             value="{{ old('name_ar') }}" required="required"
                                              placeholder="Product Name ARABIC">
                                      </div>
                                      <div class="mb-3">
                                          <label for="product-name" class="form-label">Product Name ENGLISH</label>
-                                         <input type="text" class="form-control" id="product-name" name="name_en" value="{{ old('name_en') }}" required="required"
+                                         <input type="text" class="form-control" id="product-name" name="name_en"
+                                             value="{{ old('name_en') }}" required="required"
                                              placeholder="Product Name ENGLISH">
                                      </div>
                                  </div>
@@ -58,27 +60,32 @@
                                  <div class="card-body">
                                      <div class="mb-3">
                                          <label for="product-price" class="form-label">Product Price (USD)</label>
-                                         <input type="text" class="form-control" id="product-price" name="price" value="{{ old('price') }}" required="required"
-                                             placeholder="Product Price">
+                                         <input type="text" class="form-control" id="product-price" name="price"
+                                             value="{{ old('price') }}" required="required" placeholder="Product Price">
                                      </div>
                                      <div class="row">
                                          <div class="mb-3 col-6">
                                              <label for="product-category" class="form-label">Product Category </label>
-                                             <select class="form-select mb-3" id="product-category" name="category"  required="required"
-                                                 onchange="getSubCategory(this.value)">
+                                             <select class="form-select mb-3" id="product-category" name="category"
+                                                 required="required" onchange="getSubCategory(this.value)">
                                                  <option value="">Category</option>
-                                                 @foreach ($categories as $item)
-                                                     <option value="{{ $item->id }}" @if ($item->id==old("category")) selected @endif>{{ $item->name_en }}
-                                                     </option>
-                                                 @endforeach
+                                                 @if (!empty($categories))
+                                                     @foreach ($categories as $item)
+                                                         <option value="{{ $item->id }}"
+                                                             @if ($item->id == old('category')) selected @endif>
+                                                             {{ $item->name_en }}
+                                                         </option>
+                                                     @endforeach
+                                                 @endif
                                              </select>
                                          </div>
                                          <div class="col-6">
                                              <label for="product-sub-category" class="form-label">Product Sub
                                                  Category</label>
-                                             <select class="form-select mb-3" id="product-sub-category" @if ($item->id==old("sub_category_id")) selected @endif
-                                                 name="sub_category_id"  required="required">
+                                             <select class="form-select mb-3" id="product-sub-category"
+                                                 name="sub_category_id" required="required">
                                                  <option value="">Sub Category</option>
+                                             
                                              </select>
                                          </div>
                                      </div>
@@ -88,9 +95,9 @@
                          </div>
 
                          <center>
-                             <div class="col-6" >
+                             <div class="col-6">
                                  @if ($errors->any())
-                                     <div class="alert alert-danger"  style="text-align: left">
+                                     <div class="alert alert-danger" style="text-align: left">
 
                                          @foreach ($errors->all() as $error)
                                              <li>{{ $error }}</li>

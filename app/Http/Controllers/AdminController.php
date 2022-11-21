@@ -73,7 +73,7 @@ class AdminController extends Controller
         }, "productInfo" => function ($q) {
             $q->with("color");
         }])->find($req->id);
-
+ 
         $subCategories = SubCategory::where("category_id", $product->subCategory->category_id)->get();
         $categories = Category::get();
         return view("adminPanel.show-product", compact("categories", "product", "images", "subCategories", "colors"));
