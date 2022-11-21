@@ -50,8 +50,14 @@
                                          class="ri-search-2-line"></i></button>
                              </form>
                              <div class="col-md-4 col-sm-6">
-                                 <a type="button" href="{{ route('addCategory') }}" class="btn btn-primary">Add
-                                     Category</a>
+                                 @if (!isset($isSubCategory))
+                                     <a type="button" href="{{ route('addCategory') }}" class="btn btn-primary"> Add
+                                         Category</a>
+                                 @else
+                                     <a type="button" href="{{ '/admin/add-sub-category/' . $categoryId }}"
+                                         class="btn btn-primary"> Add Sub
+                                         Category</a>
+                                 @endif
                              </div>
                          </div>
 
@@ -91,6 +97,16 @@
                                          </td>
                                          <td>
                                              <div class="d-flex justify-content-start align-items-start">
+                                                 <div class="avatar avatar-xs me-3 flex-shrink-0">
+
+                                                     <picture>
+                                                         <img class="f-w-10 rounded-circle"
+                                                             @if (!empty($category->multiMedia[0]->path)) src=" {{ asset($category->multiMedia[0]->path) }}" 
+                                                             @else
+                                                                  src="{{ asset('img/product/no-product.png') }}" @endif
+                                                             alt="">
+                                                     </picture>
+                                                 </div>
                                                  <div>
                                                      <p class="fw-bolder mb-1 d-flex align-items-center lh-1">
                                                          {{ $category->name_en }}</p>
@@ -103,7 +119,7 @@
                                          @endif
                                          @if (isset($isSubCategory))
                                              <td><a class=""
-                                                     href="{{ '/admin/all-products/'.$category->id }}"><b><u>Products</u></b></a>
+                                                     href="{{ '/admin/all-products/' . $category->id }}"><b><u>Products</u></b></a>
                                                  </li>
                                              </td>
                                          @endif

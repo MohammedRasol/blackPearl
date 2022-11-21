@@ -30,13 +30,20 @@ Route::group(["prefix" => "admin"], function () {
     Route::get("/all-sub-categories/{id}", "AdminController@allSubCategories")->name('allSubCategories');
     Route::get("/edit-sub-category/{id}", "AdminController@getSubCategory")->name('getSubCategory');
     Route::POST("/edit-sub-category/{id}", "AdminController@editSubCategory");
-
-    /*Sub Category Routes */
+    Route::get("/add-sub-category/{id}", "AdminController@addSubCategory")->name('addSubCategory');
+    Route::POST("/add-sub-category/{id}", "AdminController@addSubCategoryFunction");
+  
+    /*Use Routes */
     Route::get("/all-users", "AdminController@allUsers")->name('allUsers');
+    Route::POST("/all-users", "AdminController@allUsersByName");
     Route::get("/edit-user/{id}", "AdminController@getUser")->name('getUser');
-    Route::get("/add-user", "AdminController@getUser") ;
+    Route::get("/add-user", "AdminController@getUser")->name("addUser") ;
     Route::POST("/add-user", "AdminController@addUser") ;
     Route::POST("/edit-user/{id}", "AdminController@saveUser")->name('saveUser');
+    /*Countries  Routes */
+    Route::get("/all-countries", "AdminController@allUsers")->name('allCountries');
+    Route::get("/add-country", "AdminController@getUser")->name('addCountry');
 
     
+
  });

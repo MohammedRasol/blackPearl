@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger("category_id");
             $table->string("name_ar");
             $table->string("name_en");
-            $table->string("logo")->nullable();
             $table->integer("active")->default(1);
             $table->foreign("category_id")->references("id")->on("categories");
         });

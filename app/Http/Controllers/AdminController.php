@@ -73,7 +73,7 @@ class AdminController extends Controller
         }, "productInfo" => function ($q) {
             $q->with("color");
         }])->find($req->id);
- 
+
         $subCategories = SubCategory::where("category_id", $product->subCategory->category_id)->get();
         $categories = Category::get();
         return view("adminPanel.show-product", compact("categories", "product", "images", "subCategories", "colors"));
@@ -191,7 +191,8 @@ class AdminController extends Controller
             $q->select("element_id", "path")->where("logo", true)->where("element_type", SubCategory::class);
         }])->where("category_id", $req->id)->paginate(5);
         $isSubCategory = true;
-        return view("adminPanel.all-categories", compact("categories", "isSubCategory"));
+        $categoryId = $req->id;
+        return view("adminPanel.all-categories", compact("categories", "isSubCategory", "categoryId"));
     }
     public function getSubCategory(Request $req)
     {
@@ -218,7 +219,12 @@ class AdminController extends Controller
         $users = User::paginate(5);
         return view("adminPanel.all-users", compact("users"));
     }
-
+    public function allUsersByName(Request $req)
+    {
+        $users = User::where("name", "like", "%" . $req->search . "%")->paginate(5);
+        $req->flash();
+        return view("adminPanel.all-users", compact("users"));
+    }
     public function getUser(Request $req)
     {
         if (isset($req->id)) {
@@ -253,5 +259,23 @@ class AdminController extends Controller
         ]);
 
         return redirect("/admin/edit-user/" . $user->id);
+    }
+
+    public function addSubCategoryFunction(Request $req)
+    {
+        $category = SubCategory::create([
+            "category_id" => $req->id,
+            "name_ar" => $req->name_ar,
+            "name_en" => $req->name_en
+        ]);
+        return redirect(route("getSubCategory", $category->id));
+    }
+
+
+    public function addSubCategory()
+    {
+        $category = [];
+        $images = [];
+        return view("adminPanel.show-sub-category", compact("category", "images"));
     }
 }
