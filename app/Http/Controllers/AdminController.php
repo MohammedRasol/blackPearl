@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use DB;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\ProductInfo;
@@ -59,7 +59,7 @@ class AdminController extends Controller
             $q->select("id", "name_en as name");
         }, "getProductQty", "multiMedia" => function ($q) {
             $q->select("element_id", "path")->where("logo", true)->where("element_type", Product::class);
-        }])->select("name_en as name",   "sub_category_id", "id", "price", "active")->where("name_en", "like", "%" . $word . "%")->orWhere("name_ar", "like", "%" . $word . "%")->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
+        }])->select("name_en as name",   "category_id", "id", "price", "active")->where("name_en", "like", "%" . $word . "%")->orWhere("name_ar", "like", "%" . $word . "%")->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
         $req->flash();
         return view("adminPanel.all-products", compact("products"));
     }
@@ -68,14 +68,13 @@ class AdminController extends Controller
     {
         $colors = Color::get();
         $images = MultiMedia::where("element_id", $req->id)->where("element_type", Product::class)->get();
-        $product = Product::with(["subCategory" => function ($q) {
-            $q->select("id", "name_en as name", "category_id");
+        $product = Product::with(["category" => function ($q) {
+            $q->select("id", "name_en as name", "parent_id");
         }, "productInfo" => function ($q) {
             $q->with("color");
         }])->find($req->id);
-
-        $subCategories = SubCategory::where("category_id", $product->subCategory->category_id)->get();
-        $categories = Category::get();
+        $subCategories = Category::where("parent_id",  $product->category->parent_id)->get();
+        $categories = Category::where("parent_id", "0")->get();
         return view("adminPanel.show-product", compact("categories", "product", "images", "subCategories", "colors"));
     }
     public function getProductInfo(Request $req)
@@ -89,17 +88,17 @@ class AdminController extends Controller
     public function allProducts(Request $req)
     {
         if (empty($req->subCatId)) {
-            $products = Product::with(["subCategory" => function ($q) {
+            $products = Product::with(["category" => function ($q) {
                 $q->select("id", "name_en as name");
             }, "getProductQty", "multiMedia" => function ($q) {
                 $q->select("element_id", "path")->where("logo", true)->where("element_type", Product::class);
-            }])->select("name_en as name",   "sub_category_id", "id", "price", "active")->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
+            }])->select("name_en as name",   "category_id", "id", "price", "active")->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
         } else {
             $products = Product::with(["subCategory" => function ($q) {
                 $q->select("id", "name_en as name");
             }, "getProductQty", "multiMedia" => function ($q) {
                 $q->select("element_id", "path")->where("logo", true)->where("element_type", Product::class);
-            }])->select("name_en as name",   "sub_category_id", "id", "price", "active")->where("sub_category_id", $req->subCatId)->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
+            }])->select("name_en as name",   "category_id", "id", "price", "active")->where("category_id", $req->subCatId)->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
         }
 
         return view("adminPanel.all-products", compact("products"));
@@ -117,8 +116,9 @@ class AdminController extends Controller
             "name_ar" => ["required", "max:20", "min:2"],
             "name_en" => ["required", "max:20", "min:2"],
             "price" => ["required"],
-            "sub_category_id" => ["required"],
+            "category_id" => ["required"],
         ]);
+
         if ($validation->fails()) {
             Session::flash('errors', $validation->messages());
             return redirect()->back()->withInput();
@@ -128,10 +128,9 @@ class AdminController extends Controller
             "name_ar" => $req->name_ar,
             "name_en" => $req->name_en,
             "price" => $req->price,
-            "sub_category_id" => $req->sub_category_id
+            "category_id" => $req->category_id
         ]);
         return redirect("/admin/edit-product/" . $product->id);
-        return $product->id;
     }
     public function editProductFunction(Request $req)
     {
@@ -150,7 +149,7 @@ class AdminController extends Controller
 
     public function allCategories()
     {
-        $categories = Category::orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
+        $categories = Category::where("parent_id", "0")->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
         return view("adminPanel.all-categories", compact("categories"));
     }
     public function getCategory(Request $req)
@@ -160,14 +159,16 @@ class AdminController extends Controller
         }])->find($req->id);
 
         $images = MultiMedia::where("element_id", $req->id)->where("element_type", Category::class)->get();
-
-        return view("adminPanel.show-category", compact("category", "images"));
+        $categories = Category::where("parent_id", "0")->get();
+        return view("adminPanel.show-category", compact("category", "images", "categories"));
     }
     public function editCategory(Request $req)
     {
         $category = Category::find($req->id);
         $category->name_ar = $req->name_ar;
         $category->name_en = $req->name_en;
+        $category->parent_id = $req->parent_id;
+
         $category->save();
         $category->multiMedia()->update(["logo" => false]);
         $category->multiMedia()->where("id", $req->logo)->update(["logo" => true]);
@@ -178,18 +179,20 @@ class AdminController extends Controller
         $category = Category::create($req->all());
         return redirect(route("getCategory", $category->id));
     }
-    public function addCategory()
+    public function addCategory(Request $req)
     {
+        $parent_id = isset($req->id) ? $req->id : 0;
         $category = [];
         $images = [];
-        return view("adminPanel.show-category", compact("category", "images"));
+        return view("adminPanel.show-category", compact("category", "images", "parent_id"));
     }
 
     public function allSubCategories(Request $req)
     {
-        $categories = SubCategory::with(["multiMedia" => function ($q) {
-            $q->select("element_id", "path")->where("logo", true)->where("element_type", SubCategory::class);
-        }])->where("category_id", $req->id)->paginate(5);
+        $categories = Category::with(["multiMedia" => function ($q) {
+            $q->select("element_id", "path")->where("element_type", Category::class);
+        }])->where("parent_id", $req->id)->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
+
         $isSubCategory = true;
         $categoryId = $req->id;
         return view("adminPanel.all-categories", compact("categories", "isSubCategory", "categoryId"));
@@ -285,9 +288,9 @@ class AdminController extends Controller
     public function getCountry(Request $req)
     {
         $country = Country::with(["multiMedia" => function ($q) {
-            $q->select("element_id", "path", "id","logo")->where("element_type", Country::class);
+            $q->select("element_id", "path", "id", "logo")->where("element_type", Country::class);
         }])->find($req->id);
-         $images = $country->multiMedia;
+        $images = $country->multiMedia;
 
         return view("adminPanel.show-country", compact("country", "images"));
     }

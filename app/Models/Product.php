@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductInfo;
-use App\Models\SubCategory;
-use App\Models\SpecialProduct;
+ use App\Models\SpecialProduct;
 use App\Models\ProductReviews;
 use App\Models\MultiMedia;
 
@@ -14,7 +13,8 @@ class Product extends Model
 {
     use HasFactory;
     protected $table = "products";
-    protected $fillable = ["name_ar", "name_en", "active", "price", "sub_category_id", "discription_en", "discription_ar"];
+    protected $guarded = [""];
+    // "name_ar", "name_en", "active", "price", "sub_category_id", "discription_en", "discription_ar"
     public $timestamps = false;
 
     public function productInfo()
@@ -25,11 +25,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductInfo::class, "product_id", "id")->selectRaw("product_id,SUM(qty) as totalQty ")->groupBy('product_id');
     }
-
-
-    public function subCategory()
+    public function category()
     {
-        return $this->belongsTo(SubCategory::class, "sub_category_id", "id");
+        return $this->belongsTo(Category::class, "category_id", "id");
     }
     public function specialProduct()
     {

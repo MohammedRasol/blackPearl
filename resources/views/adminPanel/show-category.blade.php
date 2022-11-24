@@ -1,6 +1,10 @@
  @extends('layouts.adminPanel')
  @section('title')
-     Cards
+     @if (isset($category->parent_id))
+         Edit Sub Category
+     @else
+         Edit Category
+     @endif
  @endsection
 
  @section('content')
@@ -30,10 +34,13 @@
                      {{ __('admin-pages.AddNewProduct') }}
                  @endif
              </h2>
-             <form action="" method="POST">
+             <form action="/admin/add-category" method="POST">
 
                  <input type="hidden" id="image-type" value="{{ !isset($isSubCategory) ? 'category' : 'subCategory' }}">
                  <input type="hidden" id="operationType" value="{{ isset($category->id) ? 1 : 0 }}">
+                 @if (isset($parent_id))
+                     <input type="hidden" name="parent_id" value="{{ isset($parent_id) ? $parent_id : 0 }}">
+                 @endif
 
                  @csrf
                  <div class="card mb-4">
@@ -63,7 +70,7 @@
                              <div class="form-check form-switch" style="float: left">
                                  <input class="form-check-input " type="checkbox" id="active"
                                      {{ isset($category->active) && $category->active ? 'checked' : '' }}
-                                     onchange="activeProduct(this,'{{  isset($category->id) &&$category->id?$category->id:'' }}')">
+                                     onchange="activeProduct(this,'{{ isset($category->id) && $category->id ? $category->id : '' }}')">
                                  <label class="form-check-label" for="active">ACTIVE</label>
                              </div>
                          </div>
@@ -77,21 +84,36 @@
                              <div class="  mb-4">
                                  <div class="row p-5">
                                      <div class="col-6">
-                                         <label for="category-name" class="form-label">Category Name ARABIC</label>
+                                         <label for="category-name" class="form-label"> Name ARABIC</label>
                                          <input type="text" class="form-control" id="category-name" name="name_ar"
                                              required dir="rtl"
                                              value="{{ isset($category->name_ar) ? $category->name_ar : '' }}"
                                              placeholder="إسم التصنيف بالعربية">
                                      </div>
                                      <div class="col-6">
-                                         <label for="category-name" class="form-label">Category Name ENGLISH</label>
+                                         <label for="category-name" class="form-label"> Name ENGLISH</label>
                                          <input type="text" class="form-control" id="category-name"
                                              name="name_en"required
                                              value="{{ isset($category->name_en) ? $category->name_en : '' }}"
                                              placeholder="Category Name ENGLISH">
                                      </div>
+                                     @if (!empty($category->parent_id) )
+                                         <div class="col-6 mt-3">
+                                             <label for="product-sub-category" class="form-label">Main Category</label>
+                                             <select class="form-select mb-3" id="product-sub-category" name="parent_id">
+                                                 <option value="">Main Category</option>
+                                                 @foreach ($categories as $item)
+                                                     <option value="{{ $item->id }}"
+                                                         @if ($category->parent_id == $item->id) selected @endif>
+                                                         {{ $item->name_en }}
+                                                     </option>
+                                                 @endforeach
+                                             </select>
+                                         </div>
+                                     @endif
+
                                      @if (isset($category->id))
-                                         <div class="mb-4 mt-5">
+                                         <div class="mb-4">
                                              <div class="card-body  ">
                                                  <div class="row " id="images-div">
 

@@ -99,7 +99,7 @@ class AjaxAdminController extends Controller
     }
     public function getSubCategory(Request $req)
     {
-        $data["data"] = SubCategory::where("category_id", $req->catId)->get();
+        $data["data"] = Category::where("parent_id", $req->catId)->get();
         $data["code"] = 200;
         return $data;
     }
