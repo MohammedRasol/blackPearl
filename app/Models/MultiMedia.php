@@ -10,7 +10,7 @@ class MultiMedia extends Model
 {
     use HasFactory;
     protected $table = "multimedia";
-    protected $fillable = ["element_type", "element_id","logo", "path","color"];
+    protected $fillable = ["element_type", "element_id", "logo", "path", "color"];
     public $timestamps = false;
     public function products()
     {
@@ -27,5 +27,9 @@ class MultiMedia extends Model
     public function user()
     {
         return $this->belongsTo(User::class, "element_id", "id");
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class, "element_id", "id");
     }
 }

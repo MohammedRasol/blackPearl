@@ -194,7 +194,7 @@ function saveImage(inputId, proId, isLogo = 0) {
                 "<i class='fa-solid fa-maximize'></i> </a>";
             if ($("#image-type").val() != "user")
                 body += "<div class='form-check form-switch' style='float: left'><input class='form-check-input ' type='radio' value='" + data.data.id + "' required name='logo' id='active'>logo</div>";
-            body += "<img  id ='img-" + data.data.id + "'   alt='Lights' class='product-image'><div class='caption text-center'><center> </center></div></div></div >";
+            body += "<img  id ='img-" + data.data.id + "'   alt='Lights' style='max-width:250px;' class='product-image'><div class='caption text-center'><center> </center></div></div></div >";
             if ($("#image-type").val() == "user")
                 $("#images-div").html(body);
             else

@@ -40,9 +40,12 @@ Route::group(["prefix" => "admin"], function () {
     Route::get("/add-user", "AdminController@getUser")->name("addUser") ;
     Route::POST("/add-user", "AdminController@addUser") ;
     Route::POST("/edit-user/{id}", "AdminController@saveUser")->name('saveUser');
+
     /*Countries  Routes */
-    Route::get("/all-countries", "AdminController@allUsers")->name('allCountries');
-    Route::get("/add-country", "AdminController@getUser")->name('addCountry');
+    Route::get("/all-countries", "AdminController@allCountries")->name('allCountries');
+    Route::get("/edit-country/{id}", "AdminController@getCountry")->name('getCountry');
+    Route::POST("/edit-country/{id}", "AdminController@editCountry");
+    Route::get("/add-country", "AdminController@addCountry")->name('addCountry');
 
     
 

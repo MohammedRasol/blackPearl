@@ -14,7 +14,7 @@ use App\Models\SubCategory;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\MultiMedia;
-use PhpParser\Node\Expr\Cast\Object_;
+use App\Models\Country;
 
 class AdminController extends Controller
 {
@@ -270,12 +270,46 @@ class AdminController extends Controller
         ]);
         return redirect(route("getSubCategory", $category->id));
     }
-
-
     public function addSubCategory()
     {
         $category = [];
         $images = [];
         return view("adminPanel.show-sub-category", compact("category", "images"));
+    }
+    public function allCountries()
+    {
+        $countries = Country::paginate(5);
+        return view("adminPanel.all-countries", compact("countries"));
+    }
+
+    public function getCountry(Request $req)
+    {
+        $country = Country::with("multimedia")->find($req->id);
+        $images =   $country->multimedia;
+        return view("adminPanel.show-country", compact("country", "images"));
+    }
+    public function addCountry(Request $req)
+    {
+        return  $country = Country::create([
+            "name_ar" => "name_ar",
+            "name_en" => "name_en",
+            "code" => "code",
+            "phone_key" => "phone_key",
+        ]);
+        return redirect()->back()->withInput();
+    }
+
+    public function editCountry(Request $req)
+    {
+        $country = Country::find($req->id);
+
+        $country->name_ar = $req->name_ar;
+        $country->name_en = $req->name_en;
+        $country->code = $req->code;
+        $country->phone_key = $req->phone_key;
+        $country->save();
+        $country->multiMedia()->update(["logo" => false]);
+        $country->multiMedia()->where("id", $req->logo)->update(["logo" => true]);
+        return redirect()->back()->withInput();
     }
 }
