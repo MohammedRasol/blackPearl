@@ -284,21 +284,31 @@ class AdminController extends Controller
 
     public function getCountry(Request $req)
     {
-        $country = Country::with("multimedia")->find($req->id);
-        $images =   $country->multimedia;
+        $country = Country::with(["multiMedia" => function ($q) {
+            $q->select("element_id", "path", "id","logo")->where("element_type", Country::class);
+        }])->find($req->id);
+         $images = $country->multiMedia;
+
         return view("adminPanel.show-country", compact("country", "images"));
     }
-    public function addCountry(Request $req)
+    public function addCountryFunction(Request $req)
     {
-        return  $country = Country::create([
-            "name_ar" => "name_ar",
-            "name_en" => "name_en",
-            "code" => "code",
-            "phone_key" => "phone_key",
+        $country = Country::create([
+            "name_ar" => $req->name_ar,
+            "name_en" => $req->name_en,
+            "code" => $req->code,
+            "phone_key" => $req->phone_key,
         ]);
-        return redirect()->back()->withInput();
-    }
 
+
+        return redirect("/admin/edit-country/" . $country->id);
+    }
+    public function addCountry()
+    {
+        $category = [];
+        $images =  [];
+        return view("adminPanel.show-country", compact("category", "images"));
+    }
     public function editCountry(Request $req)
     {
         $country = Country::find($req->id);
@@ -308,6 +318,7 @@ class AdminController extends Controller
         $country->code = $req->code;
         $country->phone_key = $req->phone_key;
         $country->save();
+
         $country->multiMedia()->update(["logo" => false]);
         $country->multiMedia()->where("id", $req->logo)->update(["logo" => true]);
         return redirect()->back()->withInput();

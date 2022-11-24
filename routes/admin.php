@@ -46,6 +46,7 @@ Route::group(["prefix" => "admin"], function () {
     Route::get("/edit-country/{id}", "AdminController@getCountry")->name('getCountry');
     Route::POST("/edit-country/{id}", "AdminController@editCountry");
     Route::get("/add-country", "AdminController@addCountry")->name('addCountry');
+    Route::POST("/add-country", "AdminController@addCountryFunction");
 
     
 
