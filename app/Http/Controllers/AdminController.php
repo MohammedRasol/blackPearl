@@ -6,15 +6,15 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+
 use App\Models\User;
 use App\Models\Product;
 use App\Models\ProductInfo;
-use App\Models\SubCategory;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\MultiMedia;
 use App\Models\Country;
+use App\Models\City;
 
 class AdminController extends Controller
 {
@@ -55,7 +55,7 @@ class AdminController extends Controller
     public function searchProducts(Request $req)
     {
         $word = $req->search;
-        $products = Product::with(["subCategory" => function ($q) {
+        $products = Product::with(["category" => function ($q) {
             $q->select("id", "name_en as name");
         }, "getProductQty", "multiMedia" => function ($q) {
             $q->select("element_id", "path")->where("logo", true)->where("element_type", Product::class);
@@ -94,13 +94,12 @@ class AdminController extends Controller
                 $q->select("element_id", "path")->where("logo", true)->where("element_type", Product::class);
             }])->select("name_en as name",   "category_id", "id", "price", "active")->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
         } else {
-            $products = Product::with(["subCategory" => function ($q) {
+            $products = Product::with(["category" => function ($q) {
                 $q->select("id", "name_en as name");
             }, "getProductQty", "multiMedia" => function ($q) {
                 $q->select("element_id", "path")->where("logo", true)->where("element_type", Product::class);
             }])->select("name_en as name",   "category_id", "id", "price", "active")->where("category_id", $req->subCatId)->orderBy("active", "desc")->orderBy("id", "desc")->paginate(5);
         }
-
         return view("adminPanel.all-products", compact("products"));
     }
 
@@ -197,26 +196,8 @@ class AdminController extends Controller
         $categoryId = $req->id;
         return view("adminPanel.all-categories", compact("categories", "isSubCategory", "categoryId"));
     }
-    public function getSubCategory(Request $req)
-    {
-        $category = SubCategory::with(["multiMedia" => function ($q) {
-            $q->select("element_id", "path")->where("logo", true)->where("element_type", SubCategory::class);
-        }])->find($req->id);
-        $isSubCategory = true;
-        $images = MultiMedia::where("element_id", $req->id)->where("element_type", SubCategory::class)->get();
-        return view("adminPanel.show-category", compact("category", "images", "isSubCategory"));
-    }
-    public function editSubCategory(Request $req)
-    {
-        $subCategory = SubCategory::find($req->id);
-        $subCategory->name_ar = $req->name_ar;
-        $subCategory->name_en = $req->name_en;
-        $subCategory->save();
 
-        $subCategory->multiMedia()->update(["logo" => false]);
-        $subCategory->multiMedia()->where("id", $req->logo)->update(["logo" => true]);
-        return redirect()->back()->withInput();
-    }
+
     public function allUsers()
     {
         $users = User::paginate(5);
@@ -264,15 +245,7 @@ class AdminController extends Controller
         return redirect("/admin/edit-user/" . $user->id);
     }
 
-    public function addSubCategoryFunction(Request $req)
-    {
-        $category = SubCategory::create([
-            "category_id" => $req->id,
-            "name_ar" => $req->name_ar,
-            "name_en" => $req->name_en
-        ]);
-        return redirect(route("getSubCategory", $category->id));
-    }
+
     public function addSubCategory()
     {
         $category = [];
@@ -325,5 +298,11 @@ class AdminController extends Controller
         $country->multiMedia()->update(["logo" => false]);
         $country->multiMedia()->where("id", $req->logo)->update(["logo" => true]);
         return redirect()->back()->withInput();
+    }
+    function getCountryCites(Request $req)
+    {
+        $cities = City::with("country")->where("country_id", $req->id)->paginate(5);
+        $images = [];
+        return view("adminPanel.all-country-cities", compact("cities", "images"));
     }
 }

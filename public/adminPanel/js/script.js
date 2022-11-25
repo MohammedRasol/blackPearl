@@ -115,7 +115,7 @@ function getSubCategory(catId) {
                 });
                 $("#product-sub-category").html(options);
             }else
-            $("#product-sub-category").html("<option>Sub Category</option>");
+            $("#product-sub-category").html("<option value=''>Sub Category</option>");
 
         }
     });
