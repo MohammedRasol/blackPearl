@@ -12,14 +12,10 @@ Route::group(["prefix" => "ajax"], function () {
         Route::POST("/add-product-info/{proId}", "AjaxAdminController@addProductInfo");
         Route::GET("/get-sub-category/{catId}", "AjaxAdminController@getSubCategory");
         Route::POST("/active-product/{id}", "AjaxAdminController@activeProduct");
-
         #category routes
         Route::POST("/active-category/{id}", "AjaxAdminController@activeCategory");
-
         #user routes
         Route::POST("/active-user/{id}", "AjaxAdminController@activeUser");
-
-       
         #Generic routes
         Route::POST("/add-image/{id}", "AjaxAdminController@addImage");
     });
