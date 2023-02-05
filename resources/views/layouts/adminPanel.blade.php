@@ -603,9 +603,9 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="menu-section mt-4">Categories Manage</li>
+                        <li class="menu-section mt-4">Categories Manage</li> 
                         <li class="menu-item"><a
-                                class="d-flex align-items-center {{ Route::currentRouteName() == 'allCategories' || Route::currentRouteName() == 'editCategory' || Route::currentRouteName() == 'addCategory' ? '' : 'collapsed' }} "
+                                class="d-flex align-items-center {{ Route::currentRouteName() == 'allCategories'|| Route::currentRouteName() == 'allSubCategories' || Route::currentRouteName() == 'editCategory' || Route::currentRouteName() == 'addCategory' ? '' : 'collapsed' }} "
                                 href="#" data-bs-toggle="collapse" data-bs-target="#collapseMenuItemCategories"
                                 aria-expanded="false" aria-controls="collapseMenuItemPages">
                                 <span class="menu-icon">
@@ -620,11 +620,11 @@
                                     </svg>
                                 </span>
                                 <span class="menu-link">Categories</span></a>
-                            <div class="collapse   {{ Route::currentRouteName() == 'allCategories' || Route::currentRouteName() == 'editCategory' || Route::currentRouteName() == 'addCategory' ? 'show' : '' }} "
+                            <div class="collapse   {{ Route::currentRouteName() == 'allCategories' || Route::currentRouteName() == 'allSubCategories'|| Route::currentRouteName() == 'editCategory' || Route::currentRouteName() == 'addCategory' ? 'show' : '' }} "
                                 id="collapseMenuItemCategories">
                                 <ul class="submenu">
                                     <li><a href="{{ route('allCategories') }}"
-                                            class="{{ Route::currentRouteName() == 'addCategories' ? 'active' : '' }}">All
+                                            class="{{ Route::currentRouteName() == 'addCategories' || Route::currentRouteName() == 'allSubCategories' ? 'active' : '' }}">All
                                             Categories</a></li>
                                     <li><a href="{{ route('addCategory') }}"
                                             class=" {{ Route::currentRouteName() == 'addCategory' ? 'active' : '' }}">Add

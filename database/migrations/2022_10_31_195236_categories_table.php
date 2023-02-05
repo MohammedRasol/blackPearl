@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("name_ar");
             $table->string("name_en");
             $table->integer("active")->default(1);
+            $table->unsignedBigInteger("parent_id")->default(0);
         });
     }
 

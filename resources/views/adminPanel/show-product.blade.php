@@ -110,7 +110,7 @@
                                                  <option value="">Category</option>
                                                  @foreach ($categories as $item)
                                                      <option value="{{ $item->id }}"
-                                                         @if ($product->subCategory->category_id == $item->id) selected @endif>
+                                                         @if ($product->category->parent_id == $item->id) selected @endif>
                                                          {{ $item->name_en }}
                                                      </option>
                                                  @endforeach
@@ -123,7 +123,7 @@
                                                  <option value="">Sub Category</option>
                                                  @foreach ($subCategories as $item)
                                                      <option value="{{ $item->id }}"
-                                                         @if ($product->sub_category_id == $item->id) selected @endif>
+                                                         @if ($product->category_id == $item->id) selected @endif>
                                                          {{ $item->name_en }}
                                                      </option>
                                                  @endforeach

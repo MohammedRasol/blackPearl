@@ -101,10 +101,25 @@ function addProductInfo(proId) {
         }
     });
 }
+function getSubCategory(catId) {
+    var CSRF_TOKEN = $('input[name="_token"]');
+    $.ajax({
+        type: 'GET',
+        url: '/ajax/admin/get-sub-category/' + catId,
+        data: { _token: CSRF_TOKEN.val() },
+        success: function (data) {
+            if (data.data.length != 0) {
+                var options = "";
+                data.data.forEach(function (item, index) {
+                    options += "<option value='" + item.id + "'>" + item.name_en + "</option>";
+                });
+                $("#product-sub-category").html(options);
+            }else
+            $("#product-sub-category").html("<option value=''>Sub Category</option>");
 
-
-
-
+        }
+    });
+}
 function saveProductInfo() {
     var loading = $("#loading-product-info");
     var size = $("#size");

@@ -9,6 +9,7 @@ use App\Models\SubCategory;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\MultiMedia;
+use App\Models\Country;
 use App\Models\User;
 
 class AjaxAdminController extends Controller
@@ -71,13 +72,13 @@ class AjaxAdminController extends Controller
             $imageType = SubCategory::class;
         elseif ($req->imageType == "user")
             $imageType = User::class;
-
+        elseif ($req->imageType == "country")
+            $imageType = Country::class;
 
         if ($req->imageType == "user") {
             $userImg = MultiMedia::where("element_id", $req->id)->where("element_type", $imageType)->first();
-            if(isset($userImg ))
-             $userImg->delete();
-           
+            if (isset($userImg))
+                $userImg->delete();
         }
         $file = $req->file('logo');
         $imageName = $file->getClientOriginalName();
@@ -98,7 +99,7 @@ class AjaxAdminController extends Controller
     }
     public function getSubCategory(Request $req)
     {
-        $data["data"] = SubCategory::where("category_id", $req->catId)->get();
+        $data["data"] = Category::where("parent_id", $req->catId)->get();
         $data["code"] = 200;
         return $data;
     }

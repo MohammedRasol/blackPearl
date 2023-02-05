@@ -1,6 +1,6 @@
  @extends('layouts.adminPanel')
  @section('title')
-     Cards
+     Add Countrry
  @endsection
 
  @section('content')
@@ -36,16 +36,33 @@
                      </div>
                  </div>
                  <div class="card-body">
+
+
                      <div class="d-flex justify-content-between align-items-center mb-3">
-                         <form class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center" method="post"
-                             action="">
-                             @csrf
-                             <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
-                                 value="{{ old('search') }}" placeholder="Search" aria-label="Search" name="search">
-                             <button class="btn btn-link p-0 text-muted" type="submit"><i
-                                     class="ri-search-2-line"></i></button>
+                         <div class="row col-12">
+                             <form
+                                 class="bg-light rounded px-3 py-1 flex-shrink-0 d-flex align-items-center col-md-4 col-sm-6"
+                                 method="post" action="">
+                                 @csrf
+                                 <input class="form-control border-0 bg-transparent px-0 py-2 me-5 fw-bolder" type="search"
+                                     value="{{ old('search') }}" placeholder="Search" aria-label="Search" name="search">
+                                 <button class="btn btn-link p-0 text-muted" type="submit"><i
+                                         class="ri-search-2-line"></i></button>
+                             </form>
+                             <div class="col-md-4 col-sm-6">
+                                 @if (!isset($isSubCategory))
+                                     <a type="button" href="{{ route('addCategory') }}" class="btn btn-primary"> Add
+                                         Category</a>
+                                 @else
+                                     <a type="button" href="{{ '/admin/add-sub-category/' . $categoryId }}"
+                                         class="btn btn-primary"> Add Sub
+                                         Category</a>
+                                 @endif
+                             </div>
+                         </div>
 
                      </div>
+
                      <div class="table-responsive min-height-table">
                          <table class="table m-0 table-striped">
                              <thead>
@@ -55,15 +72,23 @@
                                              <input type="checkbox" class="form-check-input" id="filter-">
                                          </div>
                                      </th>
-                                     <th>Product Name</th>
-                                     <th>Sub Category</th>
-                                     <th>Price</th>
+                                     <th>
+                                         {{ isset($isSubCategory) ? 'Sub' : '' }}
+                                         Category Name</th>
+                                     @if (!isset($isSubCategory))
+                                         <th>Sub Categories</th>
+                                     @endif
+
+                                     @if (isset($isSubCategory))
+                                         <th>Products</th>
+                                     @endif
+
                                      <th>Actions</th>
                                      <th>Status</th>
                                  </tr>
                              </thead>
                              <tbody>
-                                 @foreach ($products as $product)
+                                 @foreach ($categories as $category)
                                      <tr>
                                          <td>
                                              <div class="form-group form-check-custom mb-0">
@@ -76,63 +101,41 @@
 
                                                      <picture>
                                                          <img class="f-w-10 rounded-circle"
-                                                             @if (!empty($product->multiMedia[0]->path)) src=" {{ asset($product->multiMedia[0]->path) }}" 
-                                                              @else
-                                                                   src="{{ asset('img/product/no-product.png') }}" @endif
+                                                             @if (!empty($category->multiMedia[0]->path)) src=" {{ asset($category->multiMedia[0]->path) }}" 
+                                                             @else
+                                                                  src="{{ asset('img/product/no-product.png') }}" @endif
                                                              alt="">
                                                      </picture>
                                                  </div>
                                                  <div>
                                                      <p class="fw-bolder mb-1 d-flex align-items-center lh-1">
-                                                         {{ $product->name }}
-                                                         <span class="d-block f-w-4 ms-1 lh-1 text-primary">
-                                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                                 viewBox="0 0 20 20" fill="currentColor">
-                                                                 <path fill-rule="evenodd"
-                                                                     d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                                     clip-rule="evenodd" />
-                                                             </svg>
-                                                         </span>
-                                                     </p>
-
-                                                     <span class="d-block text-muted">
-                                                         {{ __('admin-pages.instock') }} : @if (!empty($product->getProductQty[0]->totalQty))
-                                                             {{ $product->getProductQty[0]->totalQty }}
-                                                         @else
-                                                             0
-                                                         @endif
-                                                     </span>
-
+                                                         {{ $category->name_en }}</p>
                                                  </div>
                                              </div>
                                          </td>
-                                         <td>
-                                             @if (!empty($product->category->name))
-                                                 <a href="/admin/all-products/{{ $product->category->id }}">{{ $product->category->name }}</a>
-                                             @else
-                                                 -
-                                             @endif
-                                         </td>
-                                         <td class="text-muted">$
-                                             @if (!empty($product->price))
-                                                 {{ $product->price }}
-                                             @else
-                                                 -
-                                             @endif
-                                         </td>
+                                         @if (!isset($isSubCategory))
+                                             <td><a href="all-sub-categories/{{ $category->id }}">Sub Categories</a></li>
+                                             </td>
+                                         @endif
+                                         @if (isset($isSubCategory))
+                                             <td><a class=""
+                                                     href="{{ '/admin/all-products/' . $category->id }}"><b><u>Products</u></b></a>
+                                                 </li>
+                                             </td>
+                                         @endif
 
                                          <td><a class="btn btn-primary btn-sm"
-                                                 href="/admin/edit-product/{{ $product->id }}">Edit</a></li>
+                                                 href="{{ !isset($isSubCategory) ? '/admin/edit-category' : '/admin/edit-sub-category' }}/{{ $category->id }}">Edit</a>
+                                             </li>
                                          </td>
                                          <td>
                                              <div class="form-check form-switch" style="float: left">
                                                  <input class="form-check-input " type="checkbox" id="active"
-                                                     {{ $product->active ? 'checked' : '' }}
-                                                     onchange="activeProduct(this,'{{ $product->id }}')">
+                                                     {{ $category->active ? 'checked' : '' }}
+                                                     onchange="activeCategory(this,'{{ $category->id }}')">
                                                  <label class="form-check-label" for="active">ACTIVE</label>
                                              </div>
                                          </td>
-
                                      </tr>
                                  @endforeach
                              </tbody>
@@ -140,7 +143,7 @@
                      </div>
                      <br>
                      <div class="d-flex justify-content-center">
-                         {{ $products->links() }}
+                         {{ $categories->links() }}
                      </div>
                  </div>
              </div>

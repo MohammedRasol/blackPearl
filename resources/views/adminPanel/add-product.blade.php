@@ -83,7 +83,7 @@
                                              <label for="product-sub-category" class="form-label">Product Sub
                                                  Category</label>
                                              <select class="form-select mb-3" id="product-sub-category"
-                                                 name="sub_category_id" required="required">
+                                                 name="category_id" required="required">
                                                  <option value="">Sub Category</option>
                                              
                                              </select>

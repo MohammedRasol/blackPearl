@@ -101,7 +101,7 @@
                                          </td>
                                        
                                              <td><a class=""
-                                                     href="{{ '/admin/all-cites/' . $country->id }}"><b><u>Cities</u></b></a>
+                                                     href="{{ '/admin/get-country-cites/' . $country->id }}"><b><u>Cities</u></b></a>
                                                  </li>
                                              </td>
 

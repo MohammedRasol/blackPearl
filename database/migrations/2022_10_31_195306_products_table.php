@@ -22,8 +22,8 @@ return new class extends Migration
             $table->text("discription_ar")->nullable();
             $table->text("discription_en")->nullable();
             $table->integer("active")->default(1);
-            $table->unsignedBigInteger("sub_category_id");
-            $table->foreign("sub_category_id")->references("id")->on("sub_category");
+            $table->unsignedBigInteger("category_id");
+            $table->foreign("category_id")->references("id")->on("categories");
             $table->timestamps();
         });
     }

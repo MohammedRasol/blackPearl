@@ -54,7 +54,7 @@
                                      <a type="button" href="{{ route('addCategory') }}" class="btn btn-primary"> Add
                                          Category</a>
                                  @else
-                                     <a type="button" href="{{ '/admin/add-sub-category/' . $categoryId }}"
+                                     <a type="button" href="{{ '/admin/add-category/' . $categoryId }}"
                                          class="btn btn-primary"> Add Sub
                                          Category</a>
                                  @endif
@@ -114,7 +114,7 @@
                                              </div>
                                          </td>
                                          @if (!isset($isSubCategory))
-                                             <td><a href="all-sub-categories/{{ $category->id }}">Sub Categories</a></li>
+                                             <td><a href="all-categories/{{ $category->id }}">Sub Categories</a></li>
                                              </td>
                                          @endif
                                          @if (isset($isSubCategory))
@@ -125,7 +125,7 @@
                                          @endif
 
                                          <td><a class="btn btn-primary btn-sm"
-                                                 href="{{ !isset($isSubCategory) ? '/admin/edit-category' : '/admin/edit-sub-category' }}/{{ $category->id }}">Edit</a>
+                                                 href="{{ '/admin/edit-category' }}/{{ $category->id }}">Edit</a>
                                              </li>
                                          </td>
                                          <td>
